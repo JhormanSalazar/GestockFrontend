@@ -1,8 +1,10 @@
+import AppHeader from "./components/Header/AppHeader"
+
 function App() {
 
   return (
     <>
-      <h1>Gestock</h1>
+      <AppHeader />
     </>
   )
 }
