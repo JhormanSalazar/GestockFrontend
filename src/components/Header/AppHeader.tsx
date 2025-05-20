@@ -1,4 +1,13 @@
+import { useState } from "react";
+
 export default function AppHeader() {
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(false) 
+
+  const toggleLogin = () => {
+    setIsLoggedIn(prev => !prev) //Toma el valor más actualizado del state e invierte el valor
+  }
+  
   return (
     <header className="fixed top-0 w-full bg-white z-50">
       <div className=" flex justify-between items-center px-6 max-w-7xl mx-auto">
@@ -39,11 +48,14 @@ export default function AppHeader() {
           </ul>
         </nav>
 
-        <button className="hidden md:block bg-[#29AFCE] hover:bg-blue-400 text-white px-5 py-3 rounded-md text-sm cursor-pointer font-medium">
-          Iniciar Sesión
+        <button
+          onClick={toggleLogin}
+          className="hidden md:block bg-[#29AFCE] hover:bg-blue-400 text-white px-4 py-3 rounded-2xl cursor-pointer font-medium"
+        >
+          {!isLoggedIn ? "Iniciar Sesión" : "Cerrar Sesión"}
         </button>
       </div>
-      
+
       {/* Icono menú móvil */}
       {/* TODO: Fix responsive */}
       <div className="md:hidden text-2xl cursor-pointer">☰</div>
