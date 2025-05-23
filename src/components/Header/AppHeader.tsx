@@ -30,18 +30,19 @@ export default function AppHeader() {
   //Login section
   const handleLoginClick = () => {
     setShowLogin(true)
-    console.log("Iniciando Sesión...")
   }
 
   const handleLogoutClick = () => {
     setShowLogin(false)
-    console.log("Cerrando Sesión...")
-
   }
-
-  const handleCloseLogin = () => {
-    setShowLogin(false)
-    console.log("Cerrando Sesión...")
+  
+  const handleSimulateAuth = (user: string, password: string) => {
+    if(user === "admin" && password === "123") {
+      setIsLoggedIn(true)
+      setShowLogin(false)
+    } else {
+        alert("Usuario o contraseña incorrectos")  
+      }
   }
 
   return (
@@ -137,8 +138,8 @@ export default function AppHeader() {
     
         {showLogin && (
           <div className="fixed bg-white bg-opacity-20 z-50">
-              <Login 
-                handleCloseLogin={handleCloseLogin}
+              <Login
+                handleSimulateAuth={handleSimulateAuth}
               /> 
           </div>
         )}
