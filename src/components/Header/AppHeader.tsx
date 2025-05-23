@@ -138,7 +138,7 @@ export default function AppHeader() {
         {showLogin && (
           <div className="fixed bg-white bg-opacity-20 z-50">
               <Login 
-                onClose={handleCloseLogin}
+                handleCloseLogin={handleCloseLogin}
               /> 
           </div>
         )}
