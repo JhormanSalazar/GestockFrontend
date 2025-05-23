@@ -34,6 +34,7 @@ export default function AppHeader() {
 
   const handleLogoutClick = () => {
     setShowLogin(false)
+    setIsLoggedIn(false)
   }
   
   const handleSimulateAuth = (user: string, password: string) => {
