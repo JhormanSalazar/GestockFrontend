@@ -1,78 +1,117 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function AppHeader() {
-  
-  const [isLoggedIn, setIsLoggedIn] = useState(false) 
 
-  const toggleLogin = () => {
-    setIsLoggedIn(prev => !prev) //Toma el valor más actualizado del state e invierte el valor
-  }
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleLogin = () => setIsLoggedIn(prev => !prev);
+  const toggleMenu = () => setMenuOpen(prev => !prev);
+  const closeMenu = () => setMenuOpen(false);
+
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e : MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        closeMenu();
+      }
+    };
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
+
   return (
     <header className="fixed top-0 w-full bg-white z-50">
-      <div className=" flex justify-between items-center px-6 max-w-7xl mx-auto">
-        <div className="flex justify-center items-center">
+      <div className="flex justify-between items-center px-6 max-w-7xl mx-auto">
+        {/* Ícono menú móvil */}
+        <div className="md:hidden flex-1">
+          <div onClick={toggleMenu} className="text-3xl cursor-pointer">
+            ☰
+          </div>
+        </div>
+
+        {/* Logo */}
+        <div className=" flex justify-center md:justify-start">
           <img
             src="/Gestock-Logo-1.svg"
             alt="Gestock Logo"
-            className="w-auto h-32 max-md:mx-auto max-md:my-0"
+            className="w-auto h-32 max-md:ml-auto max-md:mr-0"
           />
         </div>
 
-        <nav className="hidden md:block">
-          <ul className="flex gap-6 m-0 p-0 list-none ">
-            <li>
-              <a
-                href="#inicio"
-                className="no-underline text-[#121116] font-medium hover:bg-black hover:text-white rounded-2xl py-1 px-3 transition-colors duration-300 ease-in-out transform hover:scale-105"
-              >
-                Inicio
-              </a>
-            </li>
-            <li>
-              <a
-                href="#contacto"
-                className="no-underline text-[#121116] font-medium hover:bg-black hover:text-white rounded-2xl py-1 px-3 transition-colors duration-300 ease-in-out transform hover:scale-105"
-              >
-                Contacto
-              </a>
-            </li>
-            <li>
-              <a
-                href="#servicios"
-                className="no-underline text-[#121116] font-medium hover:bg-black hover:text-white rounded-2xl py-1 px-3 transition-colors duration-300 ease-in-out transform hover:scale-105"
-              >
-                Servicios
-              </a>
-            </li>
-          </ul>
+        {/* Menú de navegación md+ */}
+        <nav className="hidden md:flex justify-center gap-6 mt-2">
+          <a
+            href="#inicio"
+            className="text-[#121116] font-medium hover:bg-black hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
+          >
+            Inicio
+          </a>
+          <a
+            href="#contacto"
+            className="text-[#121116] font-medium hover:bg-black hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
+          >
+            Contacto
+          </a>
+          <a
+            href="#servicios"
+            className="text-[#121116] font-medium hover:bg-black hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
+          >
+            Servicios
+          </a>
         </nav>
 
-        <button
-          onClick={toggleLogin}
-          className="hidden md:block bg-[#29AFCE] hover:bg-blue-400 text-white px-4 py-3 rounded-2xl cursor-pointer font-medium"
-        >
-          {!isLoggedIn ? "Iniciar Sesión" : "Cerrar Sesión"}
-        </button>
+        {/* Botón sesión desktop */}
+        <div className="hidden md:flex justify-end">
+          <button
+            onClick={toggleLogin}
+            className="bg-[#29AFCE] hover:bg-blue-400 text-white px-4 py-3 rounded-2xl font-medium cursor-pointer"
+          >
+            {!isLoggedIn ? "Iniciar Sesión" : "Cerrar Sesión"}
+          </button>
+        </div>
       </div>
 
-      {/* Icono menú móvil */}
-      {/* TODO: Fix responsive */}
-      <div className="md:hidden text-2xl cursor-pointer">☰</div>
+      {/* Menú móvil */}
+      <div
+        ref={menuRef}
+        className={`
+          md:hidden
+          fixed top-0 h-full w-[200px] bg-gray-100 z-50
+          px-6 py-8 space-y-6
+          transition-all duration-500 ease-in-out
+          ${menuOpen ? "left-0" : "-left-[200px]"}
+        `}
+      >
+        {/* Botón cerrar "X" */}
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={closeMenu}
+            className="text-2xl font-bold text-gray-700 hover:text-red-500"
+          >
+            ×
+          </button>
+        </div>
 
-      {/* Menú móvil desplegable */}
-      <div className="flex flex-col md:hidden bg-gray-100 px-6 py-4 space-y-3">
-        <a href="#inicio" className="text-gray-800 font-medium">
+        <a href="#inicio" className="block text-[#121116] font-medium">
           Inicio
         </a>
-        <a href="#productos" className="text-gray-800 font-medium">
+        <a href="#productos" className="block text-[#121116] font-medium">
           Productos
         </a>
-        <a href="#contacto" className="text-gray-800 font-medium">
+        <a href="#contacto" className="block text-[#121116] font-medium">
           Contacto
         </a>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm w-fit">
-          Iniciar Sesión
+        <button
+          className="bg-[#29AFCE] text-white px-4 py-2 rounded-md text-sm font-medium"
+          onClick={toggleLogin}
+        >
+          {!isLoggedIn ? "Iniciar Sesión" : "Cerrar Sesión"}
         </button>
       </div>
     </header>
