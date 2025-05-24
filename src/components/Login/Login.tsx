@@ -1,3 +1,7 @@
+// TODO: Refactorizar con zustand, validar con zod y custom hooka para la lógica
+// TODO: Mostrar mensaje de confirmación para iniciar sesión 
+// TODO: Spinner de carga al momento de redireccionar al iniciar sesión 
+
 import { useState } from "react"
 import imagenLogo from "../../assets/Imagen-login.svg"
 
