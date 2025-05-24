@@ -1,3 +1,5 @@
+import styles from "./WelcomeSection.module.css"
+
 export default function WelcomeSection() {
   const fondoHexagonos = {
   backgroundColor: "#111827", // gris oscuro (bg-gray-900)
@@ -14,10 +16,14 @@ export default function WelcomeSection() {
 
   return (
     <section className="bg-gray-900 text-white px-6 py-12" style={fondoHexagonos}>
-      <div className="max-w-screen-md mx-auto flex flex-col gap-12 text-center">
+      <div className="max-w-screen-lg mx-auto flex flex-col gap-12 text-center">
+
+        <div>
+          
+        </div>
         {/* Título principal */}
         <div>
-          <h2 className="text-4xl font-bold mb-2">Gestock</h2>
+          <h2 className="text-4xl font-bold mb-2">GESTOR DE INVENTARIOS</h2>
           <p className="text-lg text-gray-300">
             ¡Automatiza tu inventario, impulsa tu negocio!
           </p>
@@ -25,10 +31,10 @@ export default function WelcomeSection() {
 
         {/* Botones */}
         <div className="flex justify-center gap-4 flex-wrap">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full">
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full hover:cursor-pointer">
             Empieza ahora
           </button>
-          <button className="border border-white text-white px-6 py-2 rounded-full hover:bg-white hover:text-gray-900 transition">
+          <button className="border border-white text-white px-6 py-2 rounded-full hover:bg-white hover:text-gray-900 transition hover:cursor-pointer">
             Sobre nosotros
           </button>
         </div>
@@ -36,12 +42,13 @@ export default function WelcomeSection() {
         {/* Carrusel de marcas */}
         <div>{/* BrandCarousel aquí */}</div>
 
+
         {/* Sección descriptiva principal */}
-        <div>
-          <h3 className="text-2xl font-semibold mb-2">
+        <div className={`${styles['img-bg-descubre']} h-auto sm:h-auto`}>
+          <h3 className="text-2xl font-semibold mb-2 py-1.5">
             Descubre la forma de hacer más
           </h3>
-          <p className="text-gray-300 max-w-md mx-auto">
+          <p className="text-gray-200 max-w-md mx-auto">
             Administra tu inventario en tiempo real, optimiza tus recursos y ten
             el control total de tus productos desde cualquier lugar. ¡Eficiencia y
             organización en un solo clic!
@@ -49,7 +56,7 @@ export default function WelcomeSection() {
         </div>
 
         {/* Sección: Gestionar productos */}
-        <div>
+        <div className={styles['img-bg-transforma']}>
           <h3 className="text-2xl font-semibold mb-2">
             Transforma tu manera de gestionar productos.
           </h3>
@@ -61,7 +68,7 @@ export default function WelcomeSection() {
         </div>
 
         {/* Sección: Todo en un lugar */}
-        <div>
+        <div className={styles['img-bg-optimiza']}>
           <h3 className="text-2xl font-semibold mb-2">
             Todo lo que necesitas, en un solo lugar.
           </h3>
