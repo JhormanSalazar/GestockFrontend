@@ -1,4 +1,4 @@
-import styles from "./WelcomeSection.module.css"
+import SimpleCarousel from "../SimpleCarousel/SimpleCarousel";
 
 export default function WelcomeSection() {
   const fondoHexagonos = {
@@ -39,45 +39,11 @@ export default function WelcomeSection() {
           </button>
         </div>
 
-        {/* Carrusel de marcas */}
-        <div>{/* BrandCarousel aquí */}</div>
+        {/* Carrusel de marcas <div> BrandCarousel aquí </div>*/}
 
-
-        {/* Sección descriptiva principal */}
-        <div className={`${styles['img-bg-descubre']} h-auto sm:h-auto`}>
-          <h3 className="text-2xl font-semibold mb-2 py-1.5">
-            Descubre la forma de hacer más
-          </h3>
-          <p className="text-gray-200 max-w-md mx-auto">
-            Administra tu inventario en tiempo real, optimiza tus recursos y ten
-            el control total de tus productos desde cualquier lugar. ¡Eficiencia y
-            organización en un solo clic!
-          </p>
-        </div>
-
-        {/* Sección: Gestionar productos */}
-        <div className={styles['img-bg-transforma']}>
-          <h3 className="text-2xl font-semibold mb-2">
-            Transforma tu manera de gestionar productos.
-          </h3>
-          <p className="text-gray-300 max-w-md mx-auto">
-            Optimiza y controla tu inventario como nunca antes. Con nuestra
-            aplicación, gestionar productos es más fácil, rápido y eficiente,
-            permitiéndote tomar mejores decisiones en todo momento.
-          </p>
-        </div>
-
-        {/* Sección: Todo en un lugar */}
-        <div className={styles['img-bg-optimiza']}>
-          <h3 className="text-2xl font-semibold mb-2">
-            Todo lo que necesitas, en un solo lugar.
-          </h3>
-          <p className="text-gray-300 max-w-md mx-auto">
-            Optimiza la gestión de tu inventario con una plataforma integral.
-            Controla el stock en tiempo real, registra entradas y salidas y
-            genera reportes detallados.
-          </p>
-        </div>
+        
+        {/* Carousel de servicios */}
+        <SimpleCarousel/>
       </div>
     </section>
   );
