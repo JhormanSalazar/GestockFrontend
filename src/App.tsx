@@ -4,13 +4,15 @@ import WelcomeSection from "./components/WelcomeSection/WelcomeSection"
 function App() {
 
   return (
-    <main>
-      <AppHeader />
-      <section className="pt-32">
-      <WelcomeSection />
-      </section>
-    </main>
-  )
+    <>
+      <AppHeader /> {/* mostrar el header en toda las secciones */}
+      <main>
+        <section className="pt-32">
+          <WelcomeSection />
+        </section>
+      </main>
+    </>
+  );
 }
 
 export default App

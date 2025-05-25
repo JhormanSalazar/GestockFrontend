@@ -1,8 +1,11 @@
-import React from "react";
-import { type SlideProps } from "../../types";
+type SlideProps = {
+  title: string;
+  text: string;
+  className: string;
+  visible: boolean;
+};
 
-
-const Slide: React.FC<SlideProps> = ({ title, text, className, visible }) => {
+const Slide = ({ title, text, className, visible } : SlideProps) => {
   return (
     <div
       className={`absolute inset-0 transition-opacity duration-1200 ease-in-out

@@ -75,7 +75,7 @@ export default function Login({ handleSimulateAuth } : LoginProps) {
 
           <button
             type="submit"
-            className=" mt-6 p-4 bg-blue-600 hover:bg-blue-700 border-none text-white rounded-md text-sm cursor-pointer transition-all duration-300 ease font-medium"
+            className=" mt-6 p-4 bg-blue-600 hover:bg-blue-500 border-none text-white rounded-md text-sm cursor-pointer transition-all duration-300 ease font-medium"
             onClick={handleSubmit}
           >
             Iniciar Sesión
