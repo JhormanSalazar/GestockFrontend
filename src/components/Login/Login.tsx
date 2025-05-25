@@ -1,6 +1,7 @@
-// TODO: Refactorizar con zustand, validar con zod y custom hooka para la lógica
-// TODO: Mostrar mensaje de confirmación para iniciar sesión 
+// TODO: Refactorizar con zustand, validar con zod y custom hook para la lógica
+// TODO: Mostrar mensaje de confirmación para cerrar sesión 
 // TODO: Spinner de carga al momento de redireccionar al iniciar sesión 
+// TODO: Responsive 
 
 import { useState } from "react"
 import imagenLogo from "../../assets/Imagen-login.svg"
@@ -23,7 +24,7 @@ export default function Login({ handleSimulateAuth } : LoginProps) {
     <>
       <form 
           onSubmit={handleSubmit}
-          className=" grid grid-cols-2 items-center w-full text-md h-screen "
+          className=" grid grid-cols-2 items-center w-full text-sm h-screen "
         >
         <div className="flex flex-col justify-center mx-auto w-[55%] h-auto p-8 shadow-[0_2px_6px_rgba(0,0,0,0.1)] gap-y-1">
           <h1 className=" text-5xl font-medium">¡Bienvenido!</h1>
@@ -74,7 +75,7 @@ export default function Login({ handleSimulateAuth } : LoginProps) {
 
           <button
             type="submit"
-            className=" mt-6 p-4 bg-[#29AFCE] border-none text-white rounded-md text-sm cursor-pointer transition-all duration-500 ease hover:bg-blue-400 font-medium"
+            className=" mt-6 p-4 bg-blue-600 hover:bg-blue-700 border-none text-white rounded-md text-sm cursor-pointer transition-all duration-300 ease font-medium"
             onClick={handleSubmit}
           >
             Iniciar Sesión
@@ -82,7 +83,7 @@ export default function Login({ handleSimulateAuth } : LoginProps) {
         </div>
 
         <figure>
-          <img src={imagenLogo} alt="Imagen-bienvenida" className="flex justify-center items-center w-full h-screen bg-[#2f90a6]" />
+          <img src={imagenLogo} alt="Imagen-bienvenida" className="flex justify-center items-center w-full h-screen bg-blue-800" />
         </figure>
       </form>
     </>
