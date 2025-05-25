@@ -93,7 +93,7 @@ export default function AppHeader() {
           {/* Botón sesión desktop */}
           <div className="hidden md:flex justify-end">
             <button
-              className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-3 rounded-2xl font-medium cursor-pointer transition-all duration-300 ease"
+              className="bg-blue-600 hover:bg-blue-500 text-white text-sm px-4 py-3 rounded-full font-medium cursor-pointer transition-all duration-300 ease"
               onClick={!isLoggedIn ? handleLoginClick : handleLogoutClick}
             >
               {!isLoggedIn ? "Iniciar Sesión" : "Cerrar Sesión"}

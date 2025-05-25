@@ -1,17 +1,21 @@
+:root {
+  --imagenFondoCarrusel: url("../../../../src/assets/images/fondo1W-S.jpeg"); 
+}
+
 .img-bg-descubre {
-  background-image: url("../../assets/images/fondo1W-S.jpeg");
+  background-image: var(--imagenFondoCarrusel);
   background-size: cover;
   background-position: center;
 }
 
 .img-bg-transforma {
-  background-image: url("../../assets/images/fondo1W-S.jpeg");
+  background-image: var(--imagenFondoCarrusel);
   background-size: cover;
   background-position: center;
 }
 
 .img-bg-optimiza {
-  background-image: url("../../assets/images/fondo1W-S.jpeg");
+  background-image: var(--imagenFondoCarrusel);
   background-size: cover;
   background-position: center;
 }
