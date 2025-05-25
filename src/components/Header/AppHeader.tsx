@@ -1,3 +1,5 @@
+// TODO: cambiar color de botón en responsive
+
 import { useState, useEffect, useRef } from "react"
 import Login from "../Login/Login";
 
@@ -70,19 +72,19 @@ export default function AppHeader() {
           <nav className="hidden md:flex justify-center gap-6 mt-2">
             <a
               href="#inicio"
-              className="text-[#121116] font-medium hover:bg-[#29AFCE] hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
+              className="text-[#121116] font-medium hover:bg-blue-600 hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
             >
               Inicio
             </a>
             <a
               href="#contacto"
-              className="text-[#121116] font-medium hover:bg-[#29AFCE] hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
+              className="text-[#121116] font-medium hover:bg-blue-600 hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
             >
               Contacto
             </a>
             <a
               href="#servicios"
-              className="text-[#121116] font-medium hover:bg-[#29AFCE] hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
+              className="text-[#121116] font-medium hover:bg-blue-600 hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
             >
               Servicios
             </a>
@@ -91,7 +93,7 @@ export default function AppHeader() {
           {/* Botón sesión desktop */}
           <div className="hidden md:flex justify-end">
             <button
-              className="bg-[#29AFCE] hover:bg-blue-400 text-white text-sm px-4 py-3 rounded-2xl font-medium cursor-pointer transition-all duration-500 ease"
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-3 rounded-2xl font-medium cursor-pointer transition-all duration-300 ease"
               onClick={!isLoggedIn ? handleLoginClick : handleLogoutClick}
             >
               {!isLoggedIn ? "Iniciar Sesión" : "Cerrar Sesión"}

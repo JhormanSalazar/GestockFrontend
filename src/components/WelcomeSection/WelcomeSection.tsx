@@ -31,10 +31,10 @@ export default function WelcomeSection() {
 
         {/* Botones */}
         <div className="flex justify-center gap-4 flex-wrap">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full hover:cursor-pointer">
+          <button className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-full cursor-pointer transition-all duration-300 ease">
             Empieza ahora
           </button>
-          <button className="border border-white text-white px-6 py-2 rounded-full hover:bg-white hover:text-gray-900 transition hover:cursor-pointer">
+          <button className="border border-white text-white px-6 py-2 rounded-full hover:bg-white hover:text-gray-900 cursor-pointer transition-all duration-300 ease">
             Sobre nosotros
           </button>
         </div>
