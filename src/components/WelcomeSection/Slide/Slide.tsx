@@ -1,3 +1,6 @@
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 type SlideProps = {
   title: string;
   text: string;
@@ -14,10 +17,11 @@ const Slide = ({ title, text, className, visible } : SlideProps) => {
     >
       <h3 className="text-2xl font-semibold mb-2">{title}</h3>
       <p className="max-w-md mx-auto text-gray-200">{text}</p>
-      
-      <a href="" className="mt-12 bg-gray-100 hover:bg-gray-200 text-black p-3 rounded-full cursor-pointer text-sm transition-all duration-300 transform hover:scale-105">
+
+      <button className="mt-12 bg-gray-100 hover:bg-gray-200 text-black p-3 rounded-full cursor-pointer text-sm transition-all duration-300 transform hover:scale-105">
         Más información
-      </a>
+        <FontAwesomeIcon icon={faPlusCircle} className="px-2 text-blue-900" />
+      </button>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence } from "motion/react"
 import Login from "../Login/Login";
 
 export default function AppHeader() {
@@ -148,17 +149,34 @@ export default function AppHeader() {
         </div>
       </header>
 
-      {showLogin && (
-        <div className="fixed inset-0 bg-white bg-opacity-50 z-50">
-          <Login handleSimulateAuth={handleSimulateAuth} />
-          <button
-            onClick={() => setShowLogin(false)}
-            className="absolute top-6 right-6 z-50 text-4xl bg-gray-100 font-semibold rounded-full px-3 py-1 text-red-500 hover:text-red-400 cursor-pointer"
+      <AnimatePresence>
+        {showLogin && (
+          <motion.div
+            className="fixed inset-0 bg-white bg-opacity-50 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            ×
-          </button>
-        </div>
-      )}
+            {/* Contenedor con animación del contenido */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.30 }}
+              className="relative"
+            >
+              <Login handleSimulateAuth={handleSimulateAuth} />
+
+              <button
+                onClick={() => setShowLogin(false)}
+                className="absolute top-6 right-6 z-50 text-4xl bg-gray-100 font-semibold rounded-full px-3 py-1 text-red-500 hover:text-red-400 cursor-pointer"
+              >
+                ×
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
