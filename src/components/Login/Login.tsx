@@ -26,7 +26,7 @@ export default function Login({ handleSimulateAuth } : LoginProps) {
           onSubmit={handleSubmit}
           className=" grid grid-cols-2 items-center w-full text-sm h-screen "
         >
-        <div className="flex flex-col justify-center mx-auto w-[55%] h-auto p-8 shadow-[0_2px_6px_rgba(0,0,0,0.1)] gap-y-1">
+        <div className="flex flex-col justify-center mx-auto w-[55%] h-auto p-8 shadow-[0_2px_6px_rgba(0,0,0,0.142)] gap-y-1">
           <h1 className=" text-5xl font-medium">¡Bienvenido!</h1>
           <p className=" text-[rgb(137,137,137)] font-medium pt-2">
             Por favor Ingresa tus Datos
