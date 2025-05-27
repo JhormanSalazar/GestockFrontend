@@ -1,64 +1,20 @@
-import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "motion/react"
 import Login from "../Login/Login";
+import { useAuth } from "../../hooks/useAuth";
+import { useMenu } from "../../hooks/useMenu";
 
 export default function AppHeader() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [showLogin, setShowLogin] = useState(false)
+  const {
+    isLoggedIn,
+    showLogin,
+    setShowLogin,
+    handleLoginClick,
+    handleLogoutClick,
+    handleSimulateAuth,
+  } = useAuth();
 
-  // Menu section
-  const toggleMenu = () => setMenuOpen(prev => !prev);
-  const closeMenu = () => setMenuOpen(false);
-
-  const menuRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (e : MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        closeMenu();
-      }
-    };
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [menuOpen]);
-
-  // Bloquear scroll del modal de login
-  useEffect(() => {
-    if (showLogin) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [showLogin]);
-
-  //Login section
-  const handleLoginClick = () => {
-    setShowLogin(true)
-  }
-
-  const handleLogoutClick = () => {
-    setShowLogin(false)
-    setIsLoggedIn(false)
-  }
-  
-  const handleSimulateAuth = (user: string, password: string) => {
-    if(user === "admin" && password === "123") {
-      setIsLoggedIn(true)
-      setShowLogin(false)
-    } else {
-        alert("Usuario o contraseña incorrectos")  
-      }
-  }
+  const { menuOpen, menuRef, toggleMenu, closeMenu } = useMenu();
 
   return (
     <>
