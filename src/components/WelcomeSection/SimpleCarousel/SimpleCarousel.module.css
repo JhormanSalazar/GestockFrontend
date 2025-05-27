@@ -4,18 +4,18 @@
 
 .img-bg-descubre {
   background-image: var(--imagenFondoCarrusel);
-  background-size: cover;
-  background-position: center;
+  background-position: top;
+  object-fit: cover;
 }
 
 .img-bg-transforma {
   background-image: var(--imagenFondoCarrusel);
-  background-size: cover;
-  background-position: center;
+   background-position: left;
+  object-fit: cover;
 }
 
 .img-bg-optimiza {
   background-image: var(--imagenFondoCarrusel);
-  background-size: cover;
-  background-position: center;
+   background-position: right;
+  object-fit: cover;
 }
