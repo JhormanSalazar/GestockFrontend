@@ -23,7 +23,7 @@ export default function Login({ handleSimulateAuth }: LoginProps) {
     <>
       <form
         onSubmit={handleSubmit}
-        className=" grid grid-cols-2 items-center w-screen text-sm h-screen "
+        className=" grid grid-cols-2 items-center w-screen text-sm h-screen"
       >
         <div className="flex flex-col justify-center mx-auto w-[55%] h-auto p-8 shadow-[0_2px_6px_rgba(0,0,0,0.142)] gap-y-1">
           <h1 className=" text-5xl font-medium">¡Bienvenido!</h1>

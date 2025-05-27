@@ -1,5 +1,3 @@
-// TODO: cambiar color de botón en responsive
-
 import { useState, useEffect, useRef } from "react"
 import Login from "../Login/Login";
 
@@ -28,6 +26,19 @@ export default function AppHeader() {
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
+
+  // Bloquear scroll del modal de login
+  useEffect(() => {
+    if (showLogin) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showLogin]);
 
   //Login section
   const handleLoginClick = () => {
@@ -131,21 +142,23 @@ export default function AppHeader() {
           <a href="#contacto" className="block text-[#121116] font-medium">
             Contacto
           </a>
-          <button
-            className="bg-[#29AFCE] text-white px-4 py-2 rounded-md text-sm font-medium"
-          >
+          <button className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-medium">
             {!isLoggedIn ? "Iniciar Sesión" : "Cerrar Sesión"}
           </button>
         </div>
       </header>
-    
-        {showLogin && (
-          <div className="fixed bg-white bg-opacity-20 z-50">
-              <Login
-                handleSimulateAuth={handleSimulateAuth}
-              /> 
-          </div>
-        )}
+
+      {showLogin && (
+        <div className="fixed inset-0 bg-white bg-opacity-50 z-50">
+          <Login handleSimulateAuth={handleSimulateAuth} />
+          <button
+            onClick={() => setShowLogin(false)}
+            className="absolute top-6 right-6 z-50 text-4xl bg-gray-100 font-semibold rounded-full px-3 py-1 text-red-500 hover:text-red-400 cursor-pointer"
+          >
+            ×
+          </button>
+        </div>
+      )}
     </>
   );
 }
