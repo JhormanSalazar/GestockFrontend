@@ -13,7 +13,7 @@ export default function WelcomeSection() {
   };
 
   return (
-    <section className="bg-gray-900 text-white px-6 py-12 h-screen" style={FONDO_HEXAGONOS}>
+    <section className="bg-gray-900 text-white px-6 py-12" style={FONDO_HEXAGONOS}>
       <div className="max-w-screen-lg mx-auto flex flex-col gap-12 text-center">
 
         {/* Título principal */} 
