@@ -1,26 +1,37 @@
-// TODO: Refactorizar con zustand, validar con zod y react hook form
-// TODO: Mostrar mensaje de confirmación para cerrar sesión 
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import imagenLogo from "../assets/Imagen-login.svg";
+import imagenLogo from "../../assets/Imagen-login.svg";
+import { useAppStore } from "../../stores/useAppStore";
+import { useAuth } from "../../hooks/useAuth";
 
-interface LoginProps {
-  handleSimulateAuth: (user: string, password: string) => void;
-}
+export default function Login() {
+  
+  // Zustand state
+  const user = useAppStore(state => state.user)
+  const setUser = useAppStore(state => state.setUser) 
 
-export default function Login({ handleSimulateAuth }: LoginProps) {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  // Hooks 
+  const { handleSimulateAuth } = useAuth()
+
+  // React router
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleSimulateAuth(user, password);
+
+    handleSimulateAuth(user.email, user.password);
   };
 
   const handleClose = () => {
     navigate('/');
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setUser({
+      ...user,
+      [id]: value
+    })
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -47,16 +58,16 @@ export default function Login({ handleSimulateAuth }: LoginProps) {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label 
-                  htmlFor="user" 
+                  htmlFor="email" 
                   className="block text-sm font-medium text-gray-700"
                 >
                   Usuario
                 </label>
                 <input
                   type="text"
-                  id="user"
-                  value={user}
-                  onChange={(e) => setUser(e.target.value)}
+                  id="email"
+                  value={user.email}
+                  onChange={handleChange}
                   className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150"
                   required
                 />
@@ -72,8 +83,8 @@ export default function Login({ handleSimulateAuth }: LoginProps) {
                 <input
                   type="password"
                   id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={user.password}
+                  onChange={handleChange}
                   className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150"
                   required
                 />

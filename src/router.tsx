@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 const WelcomeSection = lazy(() => import('./views/WelcomeSection'))
 const Services = lazy(() => import('./views/Services'))
 const Contact = lazy(() => import('./views/Contact'))
-const Login = lazy(() => import('./views/Login'))
+const Login = lazy(() => import('./views/login/Login'))
 
 const PageLoader = () => (
   <div className="flex justify-center items-center h-screen font-medium text-gray-500 text-xl">
