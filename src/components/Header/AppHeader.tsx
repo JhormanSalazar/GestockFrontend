@@ -2,6 +2,7 @@ import Login from "../Login/Login";
 import { motion, AnimatePresence } from "motion/react"
 import { useAuth } from "../../hooks/useAuth";
 import { useMenu } from "../../hooks/useMenu";
+import { NavLink } from "react-router-dom";
 
 export default function AppHeader() {
 
@@ -38,24 +39,35 @@ export default function AppHeader() {
 
           {/* Menú de navegación md+ */}
           <nav className="hidden md:flex justify-center gap-6 mt-2">
-            <a
-              href="#inicio"
-              className="text-[#121116] font-medium hover:bg-blue-600 hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
+            <NavLink
+              to="/"
+              className={({ isActive }) => 
+                isActive ? 
+                "text-blue-600 font-medium py-1 px-3" 
+                : "text-[#121116] font-medium hover:text-blue-600 py-1 px-3 transition-all duration-300 transform hover:scale-105"}
             >
               Inicio
-            </a>
-            <a
-              href="#contacto"
-              className="text-[#121116] font-medium hover:bg-blue-600 hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
+            </NavLink>
+
+            <NavLink
+              to="/contact"
+              className={({ isActive }) => 
+                isActive ? 
+                "text-blue-600 font-medium py-1 px-3" 
+                : "text-[#121116] font-medium hover:text-blue-600 py-1 px-3 transition-all duration-300 transform hover:scale-105"}
             >
               Contacto
-            </a>
-            <a
-              href="#servicios"
-              className="text-[#121116] font-medium hover:bg-blue-600 hover:text-white rounded-2xl py-1 px-3 transition-all duration-300 transform hover:scale-105"
+            </NavLink>
+
+            <NavLink
+              to="/services"
+              className={({ isActive }) => 
+                isActive ? 
+                "text-blue-600 font-medium py-1 px-3" 
+                : "text-[#121116] font-medium hover:text-blue-600 py-1 px-3 transition-all duration-300 transform hover:scale-105"}
             >
               Servicios
-            </a>
+            </NavLink>
           </nav>
 
           {/* Botón sesión desktop */}
@@ -118,7 +130,7 @@ export default function AppHeader() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.30 }}
+              transition={{ duration: 0.3 }}
               className="relative"
             >
               <Login handleSimulateAuth={handleSimulateAuth} />

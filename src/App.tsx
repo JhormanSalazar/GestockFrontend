@@ -1,19 +1,18 @@
 import Footer from "./components/Footer/Footer";
 import AppHeader from "./components/Header/AppHeader"
-import WelcomeSection from "./components/WelcomeSection/WelcomeSection"
+import WelcomeSection from "./views/WelcomeSection"
 
 function App() {
-
   return (
-    <>
-      <AppHeader /> {/* mostrar el header en toda las secciones */}
-        <main>
-          <section className="pt-32">
-            <WelcomeSection />
-          </section>
-        </main>
+    <div className="min-h-screen flex flex-col">
+      <AppHeader />
+      <main className="flex-grow">
+        <section className="pt-32">
+          <WelcomeSection />
+        </section>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
 

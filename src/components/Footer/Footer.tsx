@@ -3,7 +3,7 @@ import { faFacebook, faInstagram, faXTwitter} from '@fortawesome/free-brands-svg
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 py-8 md:py-10">
+    <footer className="bg-gray-100 py-8 md:py-10 mt-auto">
       <div className="px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-x-8 lg:gap-x-45 w-full text-sm text-gray-800 max-w-7xl mx-auto">
         {/* 1ra columna */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left gap-4 max-w-xs mx-auto md:mx-0">
