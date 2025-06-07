@@ -1,6 +1,5 @@
-// TODO: Refactorizar con zustand, validar con zod y custom hook para la lógica
-// TODO: Mostrar mensaje de confirmación para cerrar sesión
-// TODO: Spinner de carga al momento de redireccionar al iniciar sesión
+// TODO: Refactorizar con zustand, validar con zod y react hook form
+// TODO: Mostrar mensaje de confirmación para cerrar sesión y spinner de carga 
 // TODO: Responsive
 
 import { useState } from "react";
