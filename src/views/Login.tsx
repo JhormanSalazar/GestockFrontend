@@ -1,7 +1,5 @@
 // TODO: Refactorizar con zustand, validar con zod y react hook form
-// TODO: Mostrar mensaje de confirmación para cerrar sesión y spinner de carga 
-// TODO: Responsive
-
+// TODO: Mostrar mensaje de confirmación para cerrar sesión 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import imagenLogo from "../assets/Imagen-login.svg";
