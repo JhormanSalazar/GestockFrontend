@@ -1,36 +1,27 @@
 // TODO: Refactorizar con zustand, validar con zod 
 import { useState } from "react"
-import { useBodyScroll } from "./useBodyScroll";
+import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
-
-  const {showLogin, setShowLogin} = useBodyScroll() // custom hook 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  //Login section
-  const handleLoginClick = () => {
-    setShowLogin(true)
-  }
+  const navigate = useNavigate();
 
   const handleLogoutClick = () => {
-    setShowLogin(false)
-    setIsLoggedIn(false)
+    setIsLoggedIn(false);
+    navigate('/');
   }
   
   const handleSimulateAuth = (user: string, password: string) => {
     if(user === "admin" && password === "123") {
-      setIsLoggedIn(true)
-      setShowLogin(false)
+      setIsLoggedIn(true);
+      navigate('/');
     } else {
-        alert("Usuario o contraseña incorrectos")  
-      }
+      alert("Usuario o contraseña incorrectos");
+    }
   }
 
   return {
     isLoggedIn,
-    showLogin, 
-    setShowLogin,
-    handleLoginClick,
     handleLogoutClick,
     handleSimulateAuth
   }
