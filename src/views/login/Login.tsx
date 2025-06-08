@@ -26,10 +26,9 @@ export default function Login() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
     setUser({
       ...user,
-      [id]: value
+      [e.target.name]: e.target.value
     })
   }
 
@@ -66,6 +65,7 @@ export default function Login() {
                 <input
                   type="text"
                   id="email"
+                  name="email"
                   value={user.email}
                   onChange={handleChange}
                   className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150"
@@ -83,6 +83,7 @@ export default function Login() {
                 <input
                   type="password"
                   id="password"
+                  name="password"
                   value={user.password}
                   onChange={handleChange}
                   className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150"
