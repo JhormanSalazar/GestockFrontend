@@ -28,7 +28,7 @@ export default function AppRouter() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <Login handleSimulateAuth={() => {}} />
+                <Login />
               </motion.div>
             </Suspense>
           }
