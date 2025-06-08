@@ -1,6 +1,7 @@
 // This component is used to manage the authentication state of the user
 import { type StateCreator } from "zustand" 
 import type { User } from "../../types/auth";
+import type { NotificationSliceType } from "./notificationSlice";
 
 export type AuthState = {
   isLoggedIn: boolean;
@@ -10,7 +11,7 @@ export type AuthState = {
   setId: (user: User, id: string) => void
 }
 
-export const authSlice: StateCreator<AuthState> = (set) => ({
+export const authSlice: StateCreator<AuthState & NotificationSliceType, [], [], AuthState> = (set, get) => ({
   isLoggedIn: false,
   user: {
     email: "",
@@ -23,7 +24,10 @@ export const authSlice: StateCreator<AuthState> = (set) => ({
     set({
       isLoggedIn: true
     })
-    console.log("El usuario se ha logueado...")
+    get().showNotification({
+      text: "Usuario logueado correctamente",
+      error: false
+    })
   },
 
   setUser: (user) => {

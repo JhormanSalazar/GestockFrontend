@@ -4,29 +4,34 @@ import { useAppStore } from "../stores/useAppStore";
 import { getRandomId } from "../helpers/getRandomId";
 
 export const useAuth = () => {
-
-  // Zustand state
-  const setIsLoggedIn = useAppStore(state => state.setIsLoggedIn)
-  const setId = useAppStore(state => state.setId)
-  
   // React router
   const navigate = useNavigate();
+
+  // Zustand state - usando selectores individuales
+  const setIsLoggedIn = useAppStore(state => state.setIsLoggedIn);
+  const setId = useAppStore(state => state.setId);
+  // const showNotification = useAppStore(state => state.showNotification)
   
   const handleSimulateAuth = (email: string, password: string) => {
-    
-    // TODO: redirect to the correct page
-    const userFound = user.find(user => user.email === email && user.password === password);
+    const userFound = user.find(u => u.email === email && u.password === password);
 
     if(userFound) {
       navigate('/');
       setIsLoggedIn();
       setId(userFound, getRandomId());
+      // showNotification({
+      //   text: "Usuario logueado correctamente",
+      //   error: false
+      // })
     } else {
-      alert("Usuario o contraseña incorrectos");
-    }
+        // showNotification({
+        //   text: "Credenciales inválidas",
+        //   error: true,
+        // });
+    } 
   }
 
   return {
     handleSimulateAuth
-  }
+  };
 }

@@ -1,36 +1,33 @@
 import { useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import type { LoginSchema } from "../../types/login";
 import imagenLogo from "../../assets/Imagen-login.svg";
-import { useAppStore } from "../../stores/useAppStore";
 import { useAuth } from "../../hooks/useAuth";
+import loginSchema from "../../schemas/loginSchema";
 
 export default function Login() {
-  
-  // Zustand state
-  const user = useAppStore(state => state.user)
-  const setUser = useAppStore(state => state.setUser) 
-
-  // Hooks 
-  const { handleSimulateAuth } = useAuth()
-
   // React router
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  // Auth hook
+  const { handleSimulateAuth } = useAuth();
 
-    handleSimulateAuth(user.email, user.password);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = (data: LoginSchema) => {
+    handleSimulateAuth(data.email, data.password);
   };
-
+  
   const handleClose = () => {
     navigate('/');
   };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value
-    })
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -54,7 +51,7 @@ export default function Login() {
               Por favor ingresa tus datos
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div>
                 <label 
                   htmlFor="email" 
@@ -63,14 +60,15 @@ export default function Login() {
                   Usuario
                 </label>
                 <input
-                  type="text"
+                  type="email"
                   id="email"
-                  name="email"
-                  value={user.email}
-                  onChange={handleChange}
+                  {...register("email")}
                   className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150"
-                  required
+                  placeholder="example@gmail.com"
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm pt-4 font-medium">{errors.email.message}</p>
+                )}
               </div>
 
               <div>
@@ -83,12 +81,13 @@ export default function Login() {
                 <input
                   type="password"
                   id="password"
-                  name="password"
-                  value={user.password}
-                  onChange={handleChange}
+                  {...register("password")}
                   className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150"
-                  required
+                  placeholder="********"
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-sm pt-4 font-medium">{errors.password.message}</p>
+                )}
               </div>
 
               <div className="flex items-center justify-between">
