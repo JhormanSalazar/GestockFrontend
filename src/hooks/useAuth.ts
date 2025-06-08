@@ -9,29 +9,44 @@ export const useAuth = () => {
 
   // Zustand state - usando selectores individuales
   const setIsLoggedIn = useAppStore(state => state.setIsLoggedIn);
+  const isLoggedIn = useAppStore(state => state.isLoggedIn);
   const setId = useAppStore(state => state.setId);
-  // const showNotification = useAppStore(state => state.showNotification)
+  const showNotification = useAppStore(state => state.showNotification);
   
   const handleSimulateAuth = (email: string, password: string) => {
+    // TODO: mostar notificacion si el usuario no existe
     const userFound = user.find(u => u.email === email && u.password === password);
 
     if(userFound) {
       navigate('/');
       setIsLoggedIn();
-      setId(userFound, getRandomId());
-      // showNotification({
-      //   text: "Usuario logueado correctamente",
-      //   error: false
-      // })
+      setId(userFound, getRandomId())
     } else {
-        // showNotification({
-        //   text: "Credenciales inválidas",
-        //   error: true,
-        // });
-    } 
+      showNotification({
+        text: "Credenciales inválidas",
+        error: true,
+      });
+    }
   }
 
+  const handleLogoutClick = () => {
+    // Reset the auth state
+    useAppStore.setState({ isLoggedIn: false, user: {
+      email: "",
+      password: "",
+      id: "",
+      role: "user"
+    }});
+    navigate('/');
+    showNotification({
+      text: "Sesión cerrada correctamente",
+      error: false,
+    });
+  };
+
   return {
-    handleSimulateAuth
+    handleSimulateAuth,
+    isLoggedIn,
+    handleLogoutClick
   };
 }
