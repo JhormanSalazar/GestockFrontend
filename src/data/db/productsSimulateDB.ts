@@ -1,4 +1,6 @@
-export const products = [
+import type { ProductsSchema } from "../../types/products";
+
+export const products : ProductsSchema[] = [
   {
     id: 1,
     name: "Smart TV 4K 55'",
@@ -7,8 +9,8 @@ export const products = [
     stock: 15,
     category: "Electrónica",
     image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500",
-    createdAt: "2025-01-01",
-    updatedAt: "2025-04-18",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 2,
@@ -18,8 +20,8 @@ export const products = [
     stock: 8,
     category: "Hogar",
     image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500",
-    createdAt: "2025-01-01",
-    updatedAt: "2025-04-18",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 3,
@@ -29,8 +31,8 @@ export const products = [
     stock: 12,
     category: "Deportes",
     image: "https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?w=500",
-    createdAt: "2025-01-01",
-    updatedAt: "2025-04-18",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 4,
@@ -40,8 +42,8 @@ export const products = [
     stock: 10,
     category: "Electrónica",
     image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=500",
-    createdAt: "2025-01-01",
-    updatedAt: "2025-04-18",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 5,
@@ -51,8 +53,8 @@ export const products = [
     stock: 6,
     category: "Hogar",
     image: "https://images.unsplash.com/photo-1617806118233-18e1de247200?w=500",
-    createdAt: "2025-01-01",
-    updatedAt: "2025-04-18",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 6,
@@ -62,8 +64,8 @@ export const products = [
     stock: 20,
     category: "Deportes",
     image: "https://images.unsplash.com/photo-1638536532686-d610adcd8e17?w=500",
-    createdAt: "2025-01-01",
-    updatedAt: "2025-04-18",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 7,
@@ -73,8 +75,8 @@ export const products = [
     stock: 25,
     category: "Electrónica",
     image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500",
-    createdAt: "2025-01-01",
-    updatedAt: "2025-04-18",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 8,
@@ -84,8 +86,8 @@ export const products = [
     stock: 15,
     category: "Hogar",
     image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500",
-    createdAt: "2025-01-01",
-    updatedAt: "2025-04-18",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 9,
@@ -95,8 +97,8 @@ export const products = [
     stock: 8,
     category: "Deportes",
     image: "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=500",
-    createdAt: "2025-01-01",
-    updatedAt: "2025-04-18",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 10,
@@ -106,7 +108,7 @@ export const products = [
     stock: 12,
     category: "Electrónica",
     image: "https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=500",
-    createdAt: "2025-01-01",
-    updatedAt: "2025-04-18",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
 ]
