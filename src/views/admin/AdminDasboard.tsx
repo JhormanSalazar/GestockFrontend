@@ -1,22 +1,30 @@
-import { FiUsers, FiPackage, FiPlusCircle } from "react-icons/fi";
-// import { useAppStore } from "../../stores/useAppStore";
+import { useState } from "react";
+import { FiUsers, FiPackage, FiPlusCircle, FiFilter } from "react-icons/fi";
 import ProductCard from "../../components/products/ProductCard";
 import { products } from "../../data/db/productsSimulateDB";
+import ProductForm from "../../components/products/ProductForm";
+// import { useAppStore } from "../../stores/useAppStore";
 
 export default function AdminDasboard() {
+  // State to control form visibility
+  const [showProductForm, setShowProductForm] = useState(false);
 
   // Zustand state
   // const products = useAppStore(state => state.products)
-
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow">
         <div className="container mx-auto px-4 py-4 sm:py-6 text-center">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Panel de Administración</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+            Panel de Administración
+          </h1>
         </div>
       </div>
+
+      {/* Product Form Modal */}
+      <ProductForm isOpen={showProductForm} onClose={() => setShowProductForm(false)} />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6 sm:py-8">
@@ -25,7 +33,9 @@ export default function AdminDasboard() {
           <div className="bg-white rounded-lg shadow p-4 sm:p-6">
             <div className="flex items-center mb-4 sm:mb-6">
               <FiUsers className="text-blue-600 text-xl sm:text-2xl mr-3" />
-              <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Gestión de Usuarios</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+                Gestión de Usuarios
+              </h2>
             </div>
             <div className="space-y-4">
               <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
@@ -58,22 +68,33 @@ export default function AdminDasboard() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0 mb-6">
               <div className="flex items-center">
                 <FiPackage className="text-green-600 text-xl sm:text-2xl mr-3" />
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Gestión de Productos</h2>
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+                  Gestión de Productos
+                </h2>
               </div>
-              <button className="w-full sm:w-auto flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                <FiPlusCircle className="mr-2" />
-                Añadir Producto
-              </button>
+
+              <div className="flex flex-col sm:flex-row w-full sm:w-auto items-stretch sm:items-center gap-2 sm:gap-4">
+                {/* Botón de filtrar productos */}
+                <button className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer">
+                  <FiFilter className="mr-2" />
+                  Filtrar Productos
+                </button>
+
+                <button
+                  className="flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors cursor-pointer"
+                  onClick={() => setShowProductForm(true)}
+                >
+                  <FiPlusCircle className="mr-2" />
+                  Añadir Producto
+                </button>
+              </div>
             </div>
 
             {/* Product cards grid */}
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {products.map((product) => (
-                  <ProductCard 
-                    key={product.id} 
-                    product={product} 
-                  />
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             </div>

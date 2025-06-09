@@ -27,8 +27,8 @@ export default function ProductCard({ product } : ProductCardProps) {
         </figure>
       </div>
 
-      <div className="p-5 flex flex-col flex-grow">
-        <div className="flex-grow">
+      <div className="p-5 flex flex-col justify-between flex-1">
+        <div>
           <h2 className="text-xl truncate font-semibold mb-2">
             {PRODUCT_NAME} - ${PRICE}
           </h2>
@@ -38,7 +38,7 @@ export default function ProductCard({ product } : ProductCardProps) {
           <p className="text-sm text-gray-500">Creado el: {CREATED_AT}</p>
           <p className="text-sm text-gray-500">Actualizado el: {UPDATED_AT}</p>
         </div>
-        <button className="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer mt-4 w-full h-12 font-medium text-white text-lg rounded">
+        <button className="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer w-full h-12 font-medium text-white text-lg rounded mt-4">
           Editar
         </button>
       </div>
