@@ -1,10 +1,10 @@
 import { FiUsers, FiPackage, FiPlusCircle } from "react-icons/fi";
-// import { useAppStore } from "../../stores/useAppStore";
+import { useAppStore } from "../../stores/useAppStore";
 
 export default function AdminDasboard() {
 
   // Zustand state
-  // const products = useAppStore(state => state.products)
+  const products = useAppStore(state => state.products)
 
   return (
     <div className="min-h-screen bg-gray-50">

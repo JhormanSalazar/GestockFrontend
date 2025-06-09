@@ -14,19 +14,27 @@ export const createProducsSlice : StateCreator<ProductSlice, [], [], ProductSlic
   products: [],
   isLoading: false,
 
-  createProduct: () => {
-
+  createProduct: (product) => {
+    set({
+      products: [ ...get().products, product]
+    })
   },
 
-  updateProduct: () => {
-
+  updateProduct: (id, updatedProduct) => {
+    set({
+      products: get().products.map(p => 
+        p.id === id ? { ...p, ...updatedProduct } : p
+      )
+    })
   },
 
-  deleteProduct: () => {
-
+  deleteProduct: (id) => {
+    set({
+      products: get().products.filter(p => p.id !== id)
+    })
   },
 
-  getProductByCategory: () => {
-
+  getProductByCategory: (category) => {
+    return get().products.filter(p => p.category === category)
   }
 })
