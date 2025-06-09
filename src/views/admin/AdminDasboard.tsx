@@ -1,6 +1,11 @@
 import { FiUsers, FiPackage, FiPlusCircle } from "react-icons/fi";
+// import { useAppStore } from "../../stores/useAppStore";
 
 export default function AdminDasboard() {
+
+  // Zustand state
+  // const products = useAppStore(state => state.products)
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -57,6 +62,8 @@ export default function AdminDasboard() {
                 Añadir Producto
               </button>
             </div>
+
+            {/* TODO: Renderizar los productos */}
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">

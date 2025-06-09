@@ -8,6 +8,6 @@ export const productsSchema = z.object({
   stock: z.number(),
   category: z.string(),
   image: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 })
