@@ -17,8 +17,14 @@ export const useAuth = () => {
     // TODO: mostar notificacion si el usuario no existe
     const userFound = user.find(u => u.email === email && u.password === password);
 
-    if(userFound) {
-      navigate('/');
+
+    // Validar si el usuario es admin o worker
+    if(userFound?.role === 'admin') {
+      navigate('/admin');
+      setIsLoggedIn();
+      setId(userFound, getRandomId())
+    } else if(userFound?.role === 'user') {
+      navigate('/worker');
       setIsLoggedIn();
       setId(userFound, getRandomId())
     } else {

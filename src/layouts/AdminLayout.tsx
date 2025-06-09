@@ -1,17 +1,15 @@
 import { Outlet } from "react-router-dom";
-import AppHeader from "../components/Header/AppHeader";
-import Footer from "../components/Footer/Footer";
 import Notification from "../components/Notification";
+import AdminHeader from "../components/routes/AdminHeader";
 
 
 export default function AdminLayout() {
   return (
     <>
-      <AppHeader />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
+      <AdminHeader />
+        <main>
+          <Outlet />
+        </main> 
       <Notification />
     </>
   )

@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import Layout from './layouts/Layout'
 import { motion } from 'framer-motion'
+import AdminLayout from './layouts/AdminLayout'
+import AdminDasboard from './views/admin/AdminDasboard'
 
 const WelcomeSection = lazy(() => import('./views/WelcomeSection'))
 const Services = lazy(() => import('./views/Services'))
@@ -56,6 +58,16 @@ export default function AppRouter() {
             element={
               <Suspense fallback={<PageLoader />}>
                 <Contact />
+              </Suspense>
+            }
+          />
+        </Route>
+        {/* Admin routes */}
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" 
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <AdminDasboard />
               </Suspense>
             }
           />
