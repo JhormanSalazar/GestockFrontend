@@ -16,24 +16,31 @@ export default function ProductCard({ product } : ProductCardProps) {
   const UPDATED_AT = product.updatedAt
 
   return (
-    <div className="shadow-xl">
-      <div className="overflow-hidden">
-        <figure>
+    <div className="shadow-xl h-[600px] flex flex-col">
+      <div className="overflow-hidden h-[250px]">
+        <figure className="w-full h-full">
           <img
             src={IMAGE}
             alt={`Image of ${PRODUCT_NAME}`}
-            className=" hover:cursor-pointer hover:scale-105 transition-transform"
+            className="w-full h-full object-cover hover:cursor-pointer hover:scale-105 transition-transform"
           />
         </figure>
       </div>
 
-      <div className=" p-5">
-        <h2 className="text-xl truncate font-semibold">{PRODUCT_NAME} - ${PRICE}</h2>
-        <p className="text-sm text-gray-500">{DESCRIPTION}</p>
-        <p className="text-sm text-gray-500">Categoría: {CATEGORY}</p>
-        <p className="text-sm text-gray-500">Stock: {STOCK}</p>
-        <p className="text-sm text-gray-500">Creado el: {CREATED_AT}</p>
-        <p className="text-sm text-gray-500">Actualizado el: {UPDATED_AT}</p>
+      <div className="p-5 flex flex-col flex-grow">
+        <div className="flex-grow">
+          <h2 className="text-xl truncate font-semibold mb-2">
+            {PRODUCT_NAME} - ${PRICE}
+          </h2>
+          <p className="text-sm text-gray-500 line-clamp-2 mb-2">{DESCRIPTION}</p>
+          <p className="text-sm text-gray-500">Categoría: {CATEGORY}</p>
+          <p className="text-sm text-gray-500">Stock: {STOCK}</p>
+          <p className="text-sm text-gray-500">Creado el: {CREATED_AT}</p>
+          <p className="text-sm text-gray-500">Actualizado el: {UPDATED_AT}</p>
+        </div>
+        <button className="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer mt-4 w-full h-12 font-medium text-white text-lg rounded">
+          Editar
+        </button>
       </div>
     </div>
   );

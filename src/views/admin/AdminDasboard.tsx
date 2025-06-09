@@ -1,10 +1,13 @@
 import { FiUsers, FiPackage, FiPlusCircle } from "react-icons/fi";
-import { useAppStore } from "../../stores/useAppStore";
+// import { useAppStore } from "../../stores/useAppStore";
+import ProductCard from "../../components/products/ProductCard";
+import { products } from "../../data/db/productsSimulateDB";
 
 export default function AdminDasboard() {
 
   // Zustand state
-  const products = useAppStore(state => state.products)
+  // const products = useAppStore(state => state.products)
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -17,7 +20,7 @@ export default function AdminDasboard() {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6 sm:py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 gap-6 sm:gap-8">
           {/* User Management Section */}
           <div className="bg-white rounded-lg shadow p-4 sm:p-6">
             <div className="flex items-center mb-4 sm:mb-6">
@@ -63,24 +66,15 @@ export default function AdminDasboard() {
               </button>
             </div>
 
-            {/* TODO: Renderizar los productos */}
+            {/* Product cards grid */}
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
-                  <div className="w-full h-24 sm:h-32 bg-gray-200 rounded-lg mb-3"></div>
-                  <h3 className="font-medium">Producto 1</h3>
-                  <p className="text-sm text-gray-500">Stock: 50</p>
-                </div>
-                <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
-                  <div className="w-full h-24 sm:h-32 bg-gray-200 rounded-lg mb-3"></div>
-                  <h3 className="font-medium">Producto 2</h3>
-                  <p className="text-sm text-gray-500">Stock: 30</p>
-                </div>
-                <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
-                  <div className="w-full h-24 sm:h-32 bg-gray-200 rounded-lg mb-3"></div>
-                  <h3 className="font-medium">Producto 3</h3>
-                  <p className="text-sm text-gray-500">Stock: 15</p>
-                </div>
+                {products.map((product) => (
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                  />
+                ))}
               </div>
             </div>
           </div>
