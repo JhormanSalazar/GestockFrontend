@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import user from "../data/userSimulateDB";
 import { useAppStore } from "../stores/useAppStore";
 import { getRandomId } from "../helpers/getRandomId";
+import user from "../data/db/userSimulateDB";
 
 export const useAuth = () => {
   // React router
@@ -19,14 +19,15 @@ export const useAuth = () => {
 
 
     // Validar si el usuario es admin o worker
-    if(userFound?.role === 'admin') {
-      navigate('/admin');
+    if (userFound?.role === "admin") {
+      // TODO: Agregar a local storage el rol del usuario
+      navigate("/admin");
       setIsLoggedIn();
-      setId(userFound, getRandomId())
-    } else if(userFound?.role === 'user') {
-      navigate('/worker');
+      setId(userFound, getRandomId());
+    } else if (userFound?.role === "user") {
+      navigate("/worker");
       setIsLoggedIn();
-      setId(userFound, getRandomId())
+      setId(userFound, getRandomId());
     } else {
       showNotification({
         text: "Credenciales inválidas",
