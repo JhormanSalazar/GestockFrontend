@@ -1,4 +1,10 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Modal from "../ui/Modal";
+// import type { ProductFormType } from "../../types/productForm";
+import { productFormSchema } from "../../schemas/productFormSchema";
+import { useProduct } from "../../hooks/useProduct";
+import type { ProductFormType } from "../../types/products";
 
 type ProductFormProps = {
   isOpen: boolean;
@@ -6,20 +12,23 @@ type ProductFormProps = {
 }
 
 export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
-  
-  // TODO Añadir el estado de los productos en el Zustand y react hook form
+   
+  const { createProduct } = useProduct();
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-  //   const { name, value } = e.target;
-  //   setFormData(prev => ({ ...prev, [name]: value }));
-  // };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<ProductFormType>({
+    resolver: zodResolver(productFormSchema),
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Add product logic here
-    // console.log(formData);
+  const onSubmit = (data: ProductFormType) => {
+    createProduct(data);
+    reset();
     onClose();
-  };
+  }
 
   return (
     <Modal 
@@ -27,7 +36,7 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
       onClose={onClose} 
       title="Añadir Nuevo Producto"
     >
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Nombre del Producto */}
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -36,12 +45,12 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
           <input
             type="text"
             id="name"
-            name="name"
-            // value={formData.name}
-            // onChange={handleChange}
-            className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            required
+            {...register("name")}
+            className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm"
           />
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+          )}
         </div>
 
         {/* Descripción */}
@@ -51,12 +60,13 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
           </label>
           <textarea
             id="description"
-            name="description"
-            // value={formData.description}
-            // onChange={handleChange}
+            {...register("description")}
             rows={3}
-            className="mt-1 border block w-full rounded-md border-gray-300 shadow-sm"
+            className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm"
           />
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+          )}
         </div>
 
         {/* Precio y Stock */}
@@ -72,15 +82,14 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
               <input
                 type="number"
                 id="price"
-                name="price"
-                // value={formData.price}
-                // onChange={handleChange}
-                className="pl-7 py-1 border block w-full rounded-md border-gray-300"
-                min="0"
-                step="0.01"
-                required
+                {...register("price")}
+                placeholder="00.0"
+                className="pl-7 p-2 border block w-full rounded-md border-gray-300"
               />
             </div>
+            {errors.price && (
+              <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
+            )}
           </div>
 
           <div>
@@ -90,32 +99,25 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
             <input
               type="number"
               id="stock"
-              name="stock"
-              // value={formData.stock}
-              // onChange={handleChange}
-              className="mt-1 py-1 border block w-full rounded-md border-gray-300 shadow-sm"
-              min="0"
-              required
+              {...register("stock")}
+              placeholder="0"
+              className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm"
             />
+            {errors.stock && (
+              <p className="text-red-500 text-sm mt-1">{errors.stock.message}</p>
+            )}
           </div>
         </div>
 
         {/* Categoría */}
         <div>
-          <label 
-            htmlFor="category" 
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="category" className="block text-sm font-medium text-gray-700">
             Categoría
           </label>
-          {/* TODO: Iterar sobre las categorías de manera dinámica */}
           <select
             id="category"
-            name="category"
-            // value={formData.category}
-            // onChange={handleChange}
-            className="mt-1 py-1 border block w-full rounded-md border-gray-300 shadow-sm"
-            required
+            {...register("category")}
+            className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm"
           >
             <option value="">Seleccionar categoría</option>
             <option value="electronics">Electrónicos</option>
@@ -123,6 +125,26 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
             <option value="food">Alimentos</option>
             <option value="other">Otros</option>
           </select>
+          {errors.category && (
+            <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>
+          )}
+        </div>
+
+        {/* Imagen del Producto */}
+        <div>
+          <label htmlFor="image" className="block text-sm font-medium text-gray-700">
+            Imagen del Producto (URL)
+          </label>
+          <input
+            type="text"
+            id="image"
+            {...register("image")}
+            placeholder="https://ejemplo.com/imagen.jpg"
+            className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm"
+          />
+          {errors.image && (
+            <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
+          )}
         </div>
 
         {/* Botones */}
@@ -130,13 +152,13 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer"
+            className="px-4 py-2 cursor-pointer text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 cursor-pointer "
+            className="px-4 py-2 cursor-pointer text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
           >
             Guardar Producto
           </button>

@@ -1,16 +1,13 @@
 import { useState } from "react";
 import { FiUsers, FiPackage, FiPlusCircle, FiFilter } from "react-icons/fi";
-import ProductCard from "../../components/products/ProductCard";
-import { products } from "../../data/db/productsSimulateDB";
+// import ProductCard from "../../components/products/ProductCard";
+// import { products } from "../../data/db/productsSimulateDB";
 import ProductForm from "../../components/products/ProductForm";
-// import { useAppStore } from "../../stores/useAppStore";
 
 export default function AdminDasboard() {
   // State to control form visibility
   const [showProductForm, setShowProductForm] = useState(false);
 
-  // Zustand state
-  // const products = useAppStore(state => state.products)
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -24,7 +21,10 @@ export default function AdminDasboard() {
       </div>
 
       {/* Product Form Modal */}
-      <ProductForm isOpen={showProductForm} onClose={() => setShowProductForm(false)} />
+      <ProductForm
+        isOpen={showProductForm}
+        onClose={() => setShowProductForm(false)}
+      />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6 sm:py-8">
@@ -44,7 +44,7 @@ export default function AdminDasboard() {
                     <h3 className="font-medium">Juan Pérez</h3>
                     <p className="text-sm text-gray-500">juan@example.com</p>
                   </div>
-                  <select className="w-full sm:w-auto form-select rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                  <select className="w-full cursor-pointer sm:w-auto form-select rounded-md border-gray-300 shadow-sm">
                     <option>Empleado</option>
                     <option>Administrador</option>
                   </select>
@@ -54,7 +54,7 @@ export default function AdminDasboard() {
                     <h3 className="font-medium">María García</h3>
                     <p className="text-sm text-gray-500">maria@example.com</p>
                   </div>
-                  <select className="w-full sm:w-auto form-select rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                  <select className="w-full cursor-pointer sm:w-auto form-select rounded-md border-gray-300 shadow-sm">
                     <option>Administrador</option>
                     <option>Empleado</option>
                   </select>
@@ -93,9 +93,12 @@ export default function AdminDasboard() {
             {/* Product cards grid */}
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
+                {/* {products.map((product) => (
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                  />
+                ))} */}
               </div>
             </div>
           </div>
