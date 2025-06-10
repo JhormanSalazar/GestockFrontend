@@ -4,7 +4,7 @@ import Modal from "../ui/Modal";
 // import type { ProductFormType } from "../../types/productForm";
 import { productFormSchema } from "../../schemas/productFormSchema";
 import { useProduct } from "../../hooks/useProduct";
-import type { ProductFormType } from "../../types/products";
+import type { ProductFormData } from "../../types/products";
 
 type ProductFormProps = {
   isOpen: boolean;
@@ -20,11 +20,11 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
     handleSubmit,
     formState: { errors },
     reset
-  } = useForm<ProductFormType>({
+  } = useForm<ProductFormData>({
     resolver: zodResolver(productFormSchema),
   });
 
-  const onSubmit = (data: ProductFormType) => {
+  const onSubmit = (data: ProductFormData) => {
     createProduct(data);
     reset();
     onClose();
@@ -80,7 +80,7 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
                 <span className="text-gray-500 sm:text-sm">$</span>
               </div>
               <input
-                type="number"
+                type="text"
                 id="price"
                 {...register("price")}
                 placeholder="00.0"
@@ -97,7 +97,7 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
               Stock
             </label>
             <input
-              type="number"
+              type="text"
               id="stock"
               {...register("stock")}
               placeholder="0"
