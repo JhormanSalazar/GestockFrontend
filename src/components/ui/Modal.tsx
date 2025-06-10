@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-interface ModalProps {
+type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
@@ -23,8 +23,8 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
         <div className="relative w-full max-w-2xl transform overflow-hidden rounded-xl bg-white shadow-2xl transition-all">
           {/* Header */}
           {title && (
-            <div className="border-b px-6 py-4">
-              <h3 className="text-xl font-medium text-gray-900">{title}</h3>
+            <div className="border-b border-gray-200 px-6 py-4">
+              <h3 className="text-xl text-center font-bold text-blue-600">{title}</h3>
             </div>
           )}
           

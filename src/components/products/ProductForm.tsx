@@ -22,7 +22,11 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Añadir Nuevo Producto">
+    <Modal 
+      isOpen={isOpen} 
+      onClose={onClose} 
+      title="Añadir Nuevo Producto"
+    >
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Nombre del Producto */}
         <div>
@@ -35,7 +39,7 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
             name="name"
             // value={formData.name}
             // onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             required
           />
         </div>
@@ -51,7 +55,7 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
             // value={formData.description}
             // onChange={handleChange}
             rows={3}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 border block w-full rounded-md border-gray-300 shadow-sm"
           />
         </div>
 
@@ -71,7 +75,7 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
                 name="price"
                 // value={formData.price}
                 // onChange={handleChange}
-                className="pl-7 block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                className="pl-7 py-1 border block w-full rounded-md border-gray-300"
                 min="0"
                 step="0.01"
                 required
@@ -89,7 +93,7 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
               name="stock"
               // value={formData.stock}
               // onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 py-1 border block w-full rounded-md border-gray-300 shadow-sm"
               min="0"
               required
             />
@@ -98,7 +102,10 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
 
         {/* Categoría */}
         <div>
-          <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+          <label 
+            htmlFor="category" 
+            className="block text-sm font-medium text-gray-700"
+          >
             Categoría
           </label>
           {/* TODO: Iterar sobre las categorías de manera dinámica */}
@@ -107,7 +114,7 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
             name="category"
             // value={formData.category}
             // onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 py-1 border block w-full rounded-md border-gray-300 shadow-sm"
             required
           >
             <option value="">Seleccionar categoría</option>
@@ -116,22 +123,6 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
             <option value="food">Alimentos</option>
             <option value="other">Otros</option>
           </select>
-        </div>
-
-        {/* SKU */}
-        <div>
-          <label htmlFor="sku" className="block text-sm font-medium text-gray-700">
-            SKU
-          </label>
-          <input
-            type="text"
-            id="sku"
-            name="sku"
-            // value={formData.sku}
-            // onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            required
-          />
         </div>
 
         {/* Botones */}
