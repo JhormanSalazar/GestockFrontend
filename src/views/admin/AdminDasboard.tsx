@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { FiUsers, FiPackage, FiPlusCircle, FiFilter } from "react-icons/fi";
-// import ProductCard from "../../components/products/ProductCard";
+import { useAppStore } from "../../stores/useAppStore";
 // import { products } from "../../data/db/productsSimulateDB";
 import ProductForm from "../../components/products/ProductForm";
+import ProductCard from "../../components/products/ProductCard";
+import { FiUsers, FiPackage, FiPlusCircle, FiFilter } from "react-icons/fi";
 
 export default function AdminDasboard() {
   // State to control form visibility
   const [showProductForm, setShowProductForm] = useState(false);
+  const products = useAppStore((state) => state.products)
 
 
   return (
@@ -93,12 +95,12 @@ export default function AdminDasboard() {
             {/* Product cards grid */}
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {/* {products.map((product) => (
-                  <ProductCard 
-                    key={product.id} 
-                    product={product} 
-                  />
-                ))} */}
+               {products.map(products => (
+                <ProductCard 
+                  key={products.id}
+                  product={products}
+                /> 
+               ))}
               </div>
             </div>
           </div>
