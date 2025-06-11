@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Modal from "../ui/Modal";
@@ -5,6 +6,8 @@ import Modal from "../ui/Modal";
 import { productFormSchema } from "../../schemas/productFormSchema";
 import { useProduct } from "../../hooks/useProduct";
 import type { ProductFormData } from "../../types/products";
+import { useEffect, useState } from "react";
+import { useAppStore } from "../../stores/useAppStore";
 
 type ProductFormProps = {
   isOpen: boolean;
@@ -14,12 +17,14 @@ type ProductFormProps = {
 export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
    
   const { createProduct } = useProduct();
-
+  const { activeId, products} = useAppStore()
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    setValue,
   } = useForm<ProductFormData>({
     resolver: zodResolver(productFormSchema),
   });
@@ -29,6 +34,16 @@ export default function ProductForm({ isOpen, onClose }: ProductFormProps) {
     reset();
     onClose();
   }
+
+  useEffect(() => {
+    const activeProduct = products.find(product => product.id === activeId)
+    setValue('name', activeProduct?.name || '')
+    setValue('description', activeProduct?.description || '')
+    setValue('price', activeProduct?.price.toString() || '')
+    setValue('stock', activeProduct?.stock.toString() || '')
+    setValue('category', activeProduct?.category || '')
+    setValue('image', activeProduct?.image || '')
+  }, [activeId])
 
   return (
     <Modal 

@@ -3,6 +3,7 @@ import type { ProductFormData, ProductFormType, Products } from "../types/produc
 
 export const useProduct = () => {
   const createProduct = useAppStore((state) => state.createProduct)
+  // const updateProduct = useAppStore((state) => state.updateProduct)
   const products = useAppStore((state) => state.products)
 
   // Función para sincronizar con localStorage
@@ -32,7 +33,12 @@ export const useProduct = () => {
     syncWithLocalStorage([ ...products, newProduct]);
   }
 
+  // const handleUpdateProduct = () => {
+
+  // }
+
   return {
     createProduct: handleCreateProduct,
+
   }
 }

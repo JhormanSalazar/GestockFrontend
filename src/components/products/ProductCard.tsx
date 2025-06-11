@@ -1,10 +1,17 @@
+import { useState } from "react"
+import { useAppStore } from "../../stores/useAppStore"
 import type { Products } from "../../types/products"
+import ProductForm from "./ProductForm"
 
 type ProductCardProps = {
   product: Products
 }
 
 export default function ProductCard({ product } : ProductCardProps) {
+
+  const [showProductForm, setShowProductForm] = useState(false)
+
+  const getProductById = useAppStore(state => state.getProductById)
 
   const IMAGE = product.image
   const PRODUCT_NAME = product.name
@@ -17,6 +24,10 @@ export default function ProductCard({ product } : ProductCardProps) {
 
   return (
     <div className="shadow-xl h-[600px] flex flex-col">
+      <ProductForm
+        isOpen={showProductForm}
+        onClose={() => setShowProductForm(false)}
+      />
       <div className="overflow-hidden h-[250px]">
         <figure className="w-full h-full">
           <img
@@ -38,7 +49,13 @@ export default function ProductCard({ product } : ProductCardProps) {
           <p className="text-sm text-gray-500">Creado el: {CREATED_AT}</p>
           <p className="text-sm text-gray-500">Actualizado el: {UPDATED_AT}</p>
         </div>
-        <button className="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer w-full h-12 font-medium text-white text-lg rounded mt-4">
+        <button 
+          className="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer w-full h-12 font-medium text-white text-lg rounded mt-4"
+          onClick={() => {
+            getProductById(product.id)
+            setShowProductForm(true)
+          }}
+        >
           Editar
         </button>
       </div>

@@ -10,7 +10,6 @@ export default function AdminDasboard() {
   const [showProductForm, setShowProductForm] = useState(false);
   const products = useAppStore((state) => state.products)
 
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
