@@ -1,6 +1,15 @@
 import type { StateCreator } from "zustand";
 import type { Products } from "../../types/products";
 
+// Función para obtener el estado inicial desde localStorage
+const getInitialProductsState = () => {
+  const savedProducts = localStorage.getItem('products');
+  if (savedProducts) {
+    return JSON.parse(savedProducts);
+  }
+  return [];
+}
+
 export type ProductSlice = {
   products: Products[]
   isLoading: boolean
@@ -11,7 +20,7 @@ export type ProductSlice = {
 }
 
 export const createProducsSlice : StateCreator<ProductSlice, [], [], ProductSlice> = (set, get) => ({
-  products: [],
+  products: getInitialProductsState(),
   isLoading: false,
 
   createProduct: (product) => {
