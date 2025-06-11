@@ -17,14 +17,24 @@ export const useAuth = () => {
     // TODO: mostar notificacion si el usuario no existe
     const userFound = user.find(u => u.email === email && u.password === password);
 
-
     // Validar si el usuario es admin o worker
     if (userFound?.role === "admin") {
-      // TODO: Agregar a local storage el rol del usuario
+      // Guardar en localStorage
+      localStorage.setItem('authState', JSON.stringify({
+        isLoggedIn: true,
+        user: userFound,
+        role: 'admin',
+        id: setId(userFound, getRandomId())
+      }));
       navigate("/admin");
       setIsLoggedIn();
-      setId(userFound, getRandomId());
     } else if (userFound?.role === "user") {
+      // Guardar en localStorage
+      localStorage.setItem('authState', JSON.stringify({
+        isLoggedIn: true,
+        user: userFound,
+        role: 'user'
+      }));
       navigate("/worker");
       setIsLoggedIn();
       setId(userFound, getRandomId());
@@ -37,6 +47,9 @@ export const useAuth = () => {
   }
 
   const handleLogoutClick = () => {
+    // Limpiar localStorage
+    localStorage.removeItem('authState');
+    
     // Reset the auth state
     useAppStore.setState({ isLoggedIn: false, user: {
       email: "",
