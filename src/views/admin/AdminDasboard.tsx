@@ -104,6 +104,9 @@ export default function AdminDasboard() {
               </div>
             </div>
           </div>
+          {products.length === 0 && (
+                  <p className="text-md max-sm:text-sm font-medium text-center mt-4 text-gray-500">Aún no tienes productos registrados</p>
+                )}
         </div>
       </div>
     </div>
