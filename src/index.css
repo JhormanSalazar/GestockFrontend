@@ -1,5 +1,56 @@
-@import "tailwindcss";
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-html {
-    font-family: "Poppins", sans-serif;
+/* stylelint-disable at-rule-no-unknown */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* stylelint-enable at-rule-no-unknown */
+
+/* Minimal base styles — Tailwind will handle the rest */
+html, body, #root {
+  height: 100%;
+  /* evitar scroll en la página de login */
+  overflow: hidden;
+}
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Login-specific styles to ensure inputs show on top of background and avoid dark autofill */
+.login-card input,
+.login-card .form-input,
+.login-card .text-input {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+}
+
+/* Autofill override for WebKit/Blink */
+.login-card input:-webkit-autofill,
+.login-card input:-webkit-autofill:hover,
+.login-card input:-webkit-autofill:focus,
+.login-card input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+
+/* Firefox autofill (limited support) */
+@-moz-document url-prefix() {
+  .login-card input:-moz-autofill {
+    box-shadow: 0 0 0px 1000px #ffffff inset !important;
+    -moz-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+    color: #111827 !important;
+  }
 }
