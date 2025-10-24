@@ -1,67 +1,67 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
+import { useWarehouses } from "@/hooks/useWarehouses";
+import { authService } from "@/services";
+import { canManageWarehouses } from "@/utils/rbac";
 import { Layout } from "@/components/Layout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { Plus, Warehouse, MapPin } from "lucide-react";
 
 export default function Almacenes() {
-  const [almacenes, setAlmacenes] = useState([]);
-  const [negocios, setNegocios] = useState([]);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
-    nombre: "",
-    ubicacion: "",
-    capacidad_maxima: "",
-    negocio_id: "",
+    name: "",
+    address: "",
+    maxCapacity: "",
   });
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
-    const [almacenesRes, negociosRes] = await Promise.all([
-      supabase.from("almacenes").select("*").order("created_at", { ascending: false }),
-      supabase.from("negocios").select("id, nombre"),
-    ]);
-
-    if (almacenesRes.data) setAlmacenes(almacenesRes.data);
-    if (negociosRes.data) setNegocios(negociosRes.data);
-  };
+  const { warehouses, isLoading, createWarehouse } = useWarehouses();
+  const userRole = authService.getUserRole();
+  const userBusinessId = authService.getBusinessId();
+  const canManage = canManageWarehouses(userRole);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { error } = await supabase.from("almacenes").insert({
-      nombre: formData.nombre,
-      ubicacion: formData.ubicacion || null,
-      capacidad_maxima: formData.capacidad_maxima ? parseInt(formData.capacidad_maxima) : null,
-      negocio_id: formData.negocio_id,
-    });
-
-    if (error) {
+    // Validación: usuario debe tener permisos
+    if (!canManage) {
       toast({
-        title: "Error",
-        description: error.message,
+        title: "Permiso denegado",
+        description: "No tienes permisos para crear almacenes",
         variant: "destructive",
       });
       return;
     }
 
-    toast({
-      title: "Almacén creado",
-      description: "El almacén ha sido creado exitosamente",
-    });
+    // Preparar datos para enviar al backend
+    const warehouseData = {
+      name: formData.name,
+      address: formData.address || null,
+      maxCapacity: formData.maxCapacity ? parseInt(formData.maxCapacity) : null,
+      businessId: userBusinessId, // Usar businessId del usuario autenticado
+    };
 
-    setOpen(false);
-    setFormData({ nombre: "", ubicacion: "", capacidad_maxima: "", negocio_id: "" });
-    loadData();
+    createWarehouse.mutate(warehouseData, {
+      onSuccess: () => {
+        toast({
+          title: "Almacén creado",
+          description: "El almacén ha sido creado exitosamente",
+        });
+        setOpen(false);
+        setFormData({ name: "", address: "", maxCapacity: "" });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error al crear almacén",
+          description: error.message || "No se pudo crear el almacén",
+          variant: "destructive",
+        });
+      },
+    });
   };
 
   return (
@@ -73,90 +73,87 @@ export default function Almacenes() {
             <p className="text-muted-foreground">Gestiona tus ubicaciones de almacenamiento</p>
           </div>
 
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-primary to-accent gap-2">
-                <Plus className="h-4 w-4" />
-                Nuevo Almacén
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="glass-card border-border/50">
-              <DialogHeader>
-                <DialogTitle>Crear nuevo almacén</DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="negocio">Negocio</Label>
-                  <Select
-                    value={formData.negocio_id}
-                    onValueChange={(value) => setFormData({ ...formData, negocio_id: value })}
-                  >
-                    <SelectTrigger className="bg-background/50">
-                      <SelectValue placeholder="Selecciona un negocio" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {negocios.map((negocio) => (
-                        <SelectItem key={negocio.id} value={negocio.id}>
-                          {negocio.nombre}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="nombre">Nombre del almacén</Label>
-                  <Input
-                    id="nombre"
-                    value={formData.nombre}
-                    onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-                    required
-                    className="bg-background/50"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="ubicacion">Ubicación</Label>
-                  <Input
-                    id="ubicacion"
-                    value={formData.ubicacion}
-                    onChange={(e) => setFormData({ ...formData, ubicacion: e.target.value })}
-                    className="bg-background/50"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="capacidad">Capacidad máxima</Label>
-                  <Input
-                    id="capacidad"
-                    type="number"
-                    value={formData.capacidad_maxima}
-                    onChange={(e) => setFormData({ ...formData, capacidad_maxima: e.target.value })}
-                    className="bg-background/50"
-                  />
-                </div>
-
-                <Button type="submit" className="w-full bg-gradient-to-r from-primary to-accent">
-                  Crear Almacén
+          {canManage && (
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-gradient-to-r from-primary to-accent gap-2">
+                  <Plus className="h-4 w-4" />
+                  Nuevo Almacén
                 </Button>
-              </form>
-            </DialogContent>
-          </Dialog>
+              </DialogTrigger>
+              <DialogContent className="glass-card border-border/50">
+                <DialogHeader>
+                  <DialogTitle>Crear nuevo almacén</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Nombre del almacén</Label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      required
+                      className="bg-background/50"
+                      placeholder="Ej: Almacén Central"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="address">Ubicación</Label>
+                    <Input
+                      id="address"
+                      value={formData.address}
+                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                      className="bg-background/50"
+                      placeholder="Ej: Calle 123, Ciudad"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="maxCapacity">Capacidad máxima</Label>
+                    <Input
+                      id="maxCapacity"
+                      type="number"
+                      value={formData.maxCapacity}
+                      onChange={(e) => setFormData({ ...formData, maxCapacity: e.target.value })}
+                      className="bg-background/50"
+                      placeholder="Ej: 1000"
+                      min="0"
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-primary to-accent"
+                    disabled={createWarehouse.isPending}
+                  >
+                    {createWarehouse.isPending ? "Creando..." : "Crear Almacén"}
+                  </Button>
+                </form>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
 
-        {almacenes.length === 0 ? (
+        {isLoading ? (
+          <Card className="glass-card p-12 border-border/50 text-center">
+            <p className="text-muted-foreground">Cargando almacenes...</p>
+          </Card>
+        ) : !warehouses || warehouses.length === 0 ? (
           <Card className="glass-card p-12 border-border/50 text-center">
             <Warehouse className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-xl font-semibold mb-2">No hay almacenes registrados</h3>
             <p className="text-muted-foreground mb-4">
-              Comienza creando tu primer almacén para organizar tu inventario
+              {canManage
+                ? "Comienza creando tu primer almacén para organizar tu inventario"
+                : "No tienes acceso a almacenes en este momento"}
             </p>
           </Card>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {almacenes.map((almacen) => (
+            {warehouses.map((warehouse) => (
               <Card
-                key={almacen.id}
+                key={warehouse.id}
                 className="glass-card p-6 border-border/50 hover:border-primary/50 transition-all duration-300 hover:scale-105"
               >
                 <div className="flex items-start justify-between mb-4">
@@ -164,16 +161,16 @@ export default function Almacenes() {
                     <Warehouse className="h-6 w-6 text-white" />
                   </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">{almacen.nombre}</h3>
-                {almacen.ubicacion && (
+                <h3 className="text-xl font-bold mb-2">{warehouse.name}</h3>
+                {warehouse.address && (
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                     <MapPin className="h-4 w-4" />
-                    {almacen.ubicacion}
+                    {warehouse.address}
                   </div>
                 )}
-                {almacen.capacidad_maxima && (
+                {warehouse.maxCapacity && (
                   <div className="text-sm text-muted-foreground">
-                    Capacidad: {almacen.capacidad_maxima} unidades
+                    Capacidad: {warehouse.maxCapacity} unidades
                   </div>
                 )}
               </Card>
