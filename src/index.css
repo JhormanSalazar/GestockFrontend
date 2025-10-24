@@ -1,56 +1,141 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* stylelint-disable at-rule-no-unknown */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* stylelint-enable at-rule-no-unknown */
 
-/* Minimal base styles — Tailwind will handle the rest */
-html, body, #root {
-  height: 100%;
-  /* evitar scroll en la página de login */
-  overflow: hidden;
-}
-body {
-  margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Tema oscuro por defecto - Azul profundo elegante */
+    --background: 220 30% 8%;
+    --foreground: 210 20% 95%;
+
+    --card: 220 25% 10%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 220 30% 12%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 220 30% 8%;
+
+    --secondary: 220 20% 15%;
+    --secondary-foreground: 210 20% 95%;
+
+    --muted: 220 20% 18%;
+    --muted-foreground: 215 15% 60%;
+
+    --accent: 199 89% 48%;
+    --accent-foreground: 220 30% 8%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 20% 20%;
+    --input: 220 20% 18%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Gradientes personalizados */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(199 89% 48%));
+    --gradient-dark: linear-gradient(180deg, hsl(220 30% 10%), hsl(220 30% 8%));
+    
+    /* Sombras con glow azul */
+    --shadow-glow: 0 0 20px hsl(217 91% 60% / 0.3);
+    --shadow-card: 0 4px 20px hsl(220 30% 5% / 0.5);
+
+    --sidebar-background: 220 30% 10%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 220 30% 8%;
+    --sidebar-accent: 220 20% 15%;
+    --sidebar-accent-foreground: 210 20% 95%;
+    --sidebar-border: 220 20% 18%;
+    --sidebar-ring: 217 91% 60%;
+  }
+
+  .dark {
+    /* Tema oscuro intensificado */
+    --background: 220 35% 6%;
+    --foreground: 210 20% 98%;
+
+    --card: 220 30% 8%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 220 35% 10%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 217 91% 65%;
+    --primary-foreground: 220 35% 6%;
+
+    --secondary: 220 25% 12%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 220 25% 15%;
+    --muted-foreground: 215 15% 65%;
+
+    --accent: 199 89% 52%;
+    --accent-foreground: 220 35% 6%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 25% 18%;
+    --input: 220 25% 15%;
+    --ring: 217 91% 65%;
+    
+    --sidebar-background: 220 35% 8%;
+    --sidebar-foreground: 210 20% 95%;
+    --sidebar-primary: 217 91% 65%;
+    --sidebar-primary-foreground: 220 35% 6%;
+    --sidebar-accent: 220 25% 12%;
+    --sidebar-accent-foreground: 210 20% 98%;
+    --sidebar-border: 220 25% 15%;
+    --sidebar-ring: 217 91% 65%;
+  }
 }
 
-/* Login-specific styles to ensure inputs show on top of background and avoid dark autofill */
-.login-card input,
-.login-card .form-input,
-.login-card .text-input {
-  background-color: #ffffff !important;
-  color: #111827 !important;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  /* Scroll personalizado */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
 }
 
-/* Autofill override for WebKit/Blink */
-.login-card input:-webkit-autofill,
-.login-card input:-webkit-autofill:hover,
-.login-card input:-webkit-autofill:focus,
-.login-card input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
-  box-shadow: 0 0 0px 1000px #ffffff inset !important;
-  -webkit-text-fill-color: #111827 !important;
-}
+@layer utilities {
+  .glass-card {
+    @apply bg-card/50 backdrop-blur-xl border border-border/50;
+  }
 
-/* Firefox autofill (limited support) */
-@-moz-document url-prefix() {
-  .login-card input:-moz-autofill {
-    box-shadow: 0 0 0px 1000px #ffffff inset !important;
-    -moz-box-shadow: 0 0 0px 1000px #ffffff inset !important;
-    color: #111827 !important;
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+
+  .glow-effect {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
   }
 }
