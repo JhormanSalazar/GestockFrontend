@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Package, Warehouse, Building2, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import authService from "@/services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 
@@ -10,7 +10,8 @@ export const Layout = ({ children }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    // Usar el AuthService del backend (JWT) para cerrar sesión
+    authService.logout();
     toast({
       title: "Sesión cerrada",
       description: "Has cerrado sesión correctamente",

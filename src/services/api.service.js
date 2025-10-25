@@ -136,9 +136,12 @@ class ApiService {
       ? this.baseEndpoint.slice(0, -1)
       : this.baseEndpoint;
 
-    const path = endpoint.startsWith('/')
-      ? endpoint
-      : `/${endpoint}`;
+    // Si no se pasa endpoint (''), devolver la base tal cual (evita '/products/')
+    if (!endpoint) {
+      return `${base}`;
+    }
+
+    const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
 
     return `${base}${path}`;
   }

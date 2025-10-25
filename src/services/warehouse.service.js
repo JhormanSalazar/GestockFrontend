@@ -1,12 +1,3 @@
-/**
- * Warehouse Service
- *
- * Servicio para gestión de bodegas/almacenes.
- * Proporciona operaciones CRUD completas para warehouses.
- *
- * @module WarehouseService
- */
-
 import ApiService from './api.service';
 import authService from './auth.service';
 
@@ -110,7 +101,6 @@ class WarehouseService extends ApiService {
    */
   async create(warehouseData) {
     try {
-      // Validar datos requeridos
       if (!warehouseData.name) {
         throw {
           message: 'El nombre de la bodega es requerido',
