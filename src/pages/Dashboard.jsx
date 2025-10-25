@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { businessService, warehouseService, productService } from "@/services";
 import { Card } from "@/components/ui/card";
 import { Package, Warehouse, Building2, TrendingUp } from "lucide-react";
 import { Layout } from "@/components/Layout";
@@ -17,24 +17,32 @@ export default function Dashboard() {
   }, []);
 
   const loadStats = async () => {
-    const [negociosRes, almacenesRes, productosRes] = await Promise.all([
-      supabase.from("negocios").select("*", { count: "exact", head: true }),
-      supabase.from("almacenes").select("*", { count: "exact", head: true }),
-      supabase.from("productos").select("cantidad, precio_unitario"),
-    ]);
+    try {
+      const [negociosRes, almacenesRes, productosRes] = await Promise.all([
+        businessService.getAll(),
+        warehouseService.getByBusinessId(),
+        productService.getAll(),
+      ]);
 
-    const valorTotal =
-      productosRes.data?.reduce(
-        (sum, p) => sum + (p.cantidad * Number(p.precio_unitario || 0)),
-        0
-      ) || 0;
+      const productosList = productosRes || [];
 
-    setStats({
-      negocios: negociosRes.count || 0,
-      almacenes: almacenesRes.count || 0,
-      productos: productosRes.data?.length || 0,
-      valorTotal,
-    });
+      const valorTotal = productosList.reduce((sum, p) => {
+        const cantidad = p.cantidad ?? p.quantity ?? 0;
+        const precio = Number(p.precio_unitario ?? p.price ?? 0) || 0;
+        return sum + cantidad * precio;
+      }, 0);
+
+      setStats({
+        negocios: Array.isArray(negociosRes) ? negociosRes.length : 0,
+        almacenes: Array.isArray(almacenesRes) ? almacenesRes.length : 0,
+        productos: productosList.length || 0,
+        valorTotal,
+      });
+    } catch (error) {
+      // en caso de error, dejar todo en 0 y opcionalmente loguear
+      console.error('Error cargando estadísticas:', error);
+      setStats({ negocios: 0, almacenes: 0, productos: 0, valorTotal: 0 });
+    }
   };
 
   const statCards = [
