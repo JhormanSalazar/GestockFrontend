@@ -17,4 +17,5 @@ export { default as warehouseService } from './warehouse.service';
 export { default as productService } from './product.service';
 export { default as businessService } from './business.service';
 export { default as userService } from './user.service';
+export { default as warehouseProductService } from './warehouseProduct.service';
 export { default as ApiService } from './api.service';

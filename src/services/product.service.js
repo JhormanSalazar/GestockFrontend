@@ -4,13 +4,14 @@
  * Servicio para gestión de productos del catálogo.
  * Proporciona operaciones CRUD completas para products.
  *
- * IMPORTANTE: Los productos son globales (no están vinculados a un negocio específico).
+ * IMPORTANTE: Los productos están vinculados a un negocio específico (businessId).
  * El stock se maneja a través de la relación WarehouseProduct.
  *
  * @module ProductService
  */
 
 import ApiService from './api.service';
+import authService from './auth.service';
 
 class ProductService extends ApiService {
   constructor() {
@@ -18,17 +19,28 @@ class ProductService extends ApiService {
   }
 
   /**
-   * Obtiene todos los productos del catálogo
+   * Obtiene todos los productos del negocio actual
    *
-   * @returns {Promise<Array>} Lista de todos los productos
+   * @param {number} [businessId] - ID del negocio (opcional, usa el del usuario si no se proporciona)
+   * @returns {Promise<Array>} Lista de productos del negocio
    *
    * @example
-   * const products = await productService.getAll();
+   * const products = await productService.getByBusinessId();
    * // Retorna: [{ id, name, price, description }, ...]
    */
-  async getAll() {
+  async getByBusinessId(businessId) {
     try {
-      const response = await this.get('');
+      // Si no se proporciona businessId, usar el del usuario actual
+      const targetBusinessId = businessId || authService.getBusinessId();
+
+      if (!targetBusinessId) {
+        throw {
+          message: 'No se pudo determinar el ID del negocio',
+          status: 400,
+        };
+      }
+
+      const response = await this.get(`/by-business/${targetBusinessId}`);
       return response;
     } catch (error) {
       throw error;
@@ -62,7 +74,7 @@ class ProductService extends ApiService {
   }
 
   /**
-   * Crea un nuevo producto (requiere rol ADMIN)
+   * Crea un nuevo producto (requiere rol ADMIN o BUSINESS_OWNER)
    *
    * @param {Object} productData - Datos del producto a crear
    * @param {string} productData.name - Nombre del producto
@@ -102,7 +114,20 @@ class ProductService extends ApiService {
         };
       }
 
-      const response = await this.post('', productData);
+      // Si no se proporciona businessId, usar el del usuario actual
+      const requestData = {
+        ...productData,
+        businessId: productData.businessId || authService.getBusinessId(),
+      };
+
+      if (!requestData.businessId) {
+        throw {
+          message: 'No se pudo determinar el ID del negocio',
+          status: 400,
+        };
+      }
+
+      const response = await this.post('', requestData);
       return response;
     } catch (error) {
       throw error;
@@ -111,9 +136,6 @@ class ProductService extends ApiService {
 
   /**
    * Actualiza un producto existente
-   *
-   * NOTA: El backend actual no tiene endpoint PUT para productos.
-   * Este método está preparado para cuando se implemente.
    *
    * @param {number} productId - ID del producto a actualizar
    * @param {Object} productData - Datos actualizados
@@ -145,16 +167,15 @@ class ProductService extends ApiService {
         };
       }
 
-      const response = await this.put(`/${productId}`, productData);
+      // Si no se proporciona businessId, usar el del usuario actual
+      const requestData = {
+        ...productData,
+        businessId: productData.businessId || authService.getBusinessId(),
+      };
+
+      const response = await this.put(`/${productId}`, requestData);
       return response;
     } catch (error) {
-      // Si el backend retorna 404, probablemente el endpoint no existe aún
-      if (error.status === 404) {
-        throw {
-          ...error,
-          message: 'El endpoint de actualización no está disponible en el backend',
-        };
-      }
       throw error;
     }
   }
@@ -192,16 +213,17 @@ class ProductService extends ApiService {
    *
    * @param {string} searchTerm - Término de búsqueda
    * @param {Array} [products] - Lista de productos donde buscar (opcional, obtiene todos si no se proporciona)
+   * @param {number} [businessId] - ID del negocio (opcional)
    * @returns {Promise<Array>} Lista de productos que coinciden con la búsqueda
    *
    * @example
    * const results = await productService.search('Laptop');
    * // Retorna productos que contienen 'Laptop' en su nombre o descripción
    */
-  async search(searchTerm, products = null) {
+  async search(searchTerm, products = null, businessId = null) {
     try {
       // Si no se proporcionan productos, obtenerlos primero
-      const productList = products || await this.getAll();
+      const productList = products || await this.getByBusinessId(businessId);
 
       if (!searchTerm || searchTerm.trim().length === 0) {
         return productList;
@@ -225,15 +247,16 @@ class ProductService extends ApiService {
    * @param {number} minPrice - Precio mínimo
    * @param {number} maxPrice - Precio máximo
    * @param {Array} [products] - Lista de productos donde filtrar (opcional)
+   * @param {number} [businessId] - ID del negocio (opcional)
    * @returns {Promise<Array>} Lista de productos dentro del rango de precio
    *
    * @example
    * const filtered = await productService.filterByPriceRange(100000, 500000);
    * // Retorna productos con precio entre 100,000 y 500,000
    */
-  async filterByPriceRange(minPrice, maxPrice, products = null) {
+  async filterByPriceRange(minPrice, maxPrice, products = null, businessId = null) {
     try {
-      const productList = products || await this.getAll();
+      const productList = products || await this.getByBusinessId(businessId);
 
       return productList.filter(product => {
         const price = product.price || 0;

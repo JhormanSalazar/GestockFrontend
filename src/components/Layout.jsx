@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Package, Warehouse, Building2, LogOut } from "lucide-react";
+import { Package, Warehouse, Building2, LogOut, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import authService from "@/services/auth.service";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { toast } from "@/hooks/use-toast";
 export const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const userRole = authService.getUserRole();
 
   const handleLogout = async () => {
     // Usar el AuthService del backend (JWT) para cerrar sesión
@@ -19,11 +20,16 @@ export const Layout = ({ children }) => {
     navigate("/auth");
   };
 
-  const navItems = [
-    { path: "/", label: "Dashboard", icon: Building2 },
-    { path: "/almacenes", label: "Almacenes", icon: Warehouse },
-    { path: "/productos", label: "Productos", icon: Package },
+  // Definir todos los items de navegación posibles
+  const allNavItems = [
+    { path: "/", label: "Dashboard", icon: Building2, roles: ["ADMIN", "BUSINESS_OWNER", "COLLABORATOR"] },
+    { path: "/almacenes", label: "Almacenes", icon: Warehouse, roles: ["ADMIN", "BUSINESS_OWNER"] },
+    { path: "/productos", label: "Productos", icon: Package, roles: ["ADMIN", "BUSINESS_OWNER"] },
+    { path: "/negocios", label: "Negocios", icon: Briefcase, roles: ["ADMIN"] },
   ];
+
+  // Filtrar items según el rol del usuario
+  const navItems = allNavItems.filter(item => item.roles.includes(userRole));
 
   return (
     <div className="min-h-screen bg-background">

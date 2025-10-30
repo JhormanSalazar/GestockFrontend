@@ -21,7 +21,7 @@ export default function Dashboard() {
       const [negociosRes, almacenesRes, productosRes] = await Promise.all([
         businessService.getAll(),
         warehouseService.getByBusinessId(),
-        productService.getAll(),
+        productService.getByBusinessId(),
       ]);
 
       const productosList = productosRes || [];
