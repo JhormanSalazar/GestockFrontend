@@ -80,11 +80,42 @@ export default function AlmacenProductos() {
       return;
     }
 
+    // Debug: Ver valores antes de parsear
+    console.log("🔍 FormData values:", {
+      productId: formData.productId,
+      warehouseId: warehouseId,
+      quantity: formData.quantity
+    });
+
+    // Validar que los campos no estén vacíos
+    if (!formData.productId || !formData.quantity) {
+      toast({
+        title: "Campos requeridos",
+        description: "Por favor selecciona un producto e ingresa una cantidad",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const data = {
       productId: parseInt(formData.productId),
       warehouseId: parseInt(warehouseId),
       quantity: parseInt(formData.quantity),
     };
+
+    // Validar que parseInt no haya retornado NaN
+    if (isNaN(data.productId) || isNaN(data.warehouseId) || isNaN(data.quantity)) {
+      toast({
+        title: "Error de validación",
+        description: "Los valores ingresados no son válidos",
+        variant: "destructive",
+      });
+      console.error("❌ Invalid parsed values:", data);
+      return;
+    }
+
+    // Debug: Ver datos parseados
+    console.log("📦 Data to send:", data);
 
     createMutation.mutate(data, {
       onSuccess: () => {

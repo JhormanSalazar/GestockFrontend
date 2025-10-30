@@ -38,7 +38,7 @@ export const useProducts = () => {
   const { toast } = useToast();
 
   /**
-   * Query para obtener todos los productos
+   * Query para obtener todos los productos del negocio actual
    */
   const {
     data: products = [],
@@ -48,7 +48,7 @@ export const useProducts = () => {
     refetch,
   } = useQuery({
     queryKey: ['products'],
-    queryFn: () => productService.getAll(),
+    queryFn: () => productService.getByBusinessId(),
     staleTime: 5 * 60 * 1000, // 5 minutos
   });
 

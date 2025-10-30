@@ -83,14 +83,14 @@ class WarehouseProductService extends ApiService {
    * @param {Object} data - Datos del producto en almacén
    * @param {number} data.productId - ID del producto
    * @param {number} data.warehouseId - ID del almacén
-   * @param {number} data.stock - Cantidad inicial de stock
+   * @param {number} data.quantity - Cantidad inicial de stock
    * @returns {Promise<Object>} Producto creado en el almacén
    *
    * @example
    * const created = await warehouseProductService.create({
    *   productId: 123,
    *   warehouseId: 456,
-   *   stock: 100
+   *   quantity: 100
    * });
    */
   async create(data) {
@@ -102,9 +102,9 @@ class WarehouseProductService extends ApiService {
         };
       }
 
-      if (data.stock === undefined || data.stock === null) {
+      if (data.quantity === undefined || data.quantity === null) {
         throw {
-          message: 'El stock es requerido',
+          message: 'La cantidad es requerida',
           status: 400,
         };
       }
@@ -122,11 +122,11 @@ class WarehouseProductService extends ApiService {
    * @param {number} productId - ID del producto
    * @param {number} warehouseId - ID del almacén
    * @param {Object} data - Datos actualizados
-   * @param {number} data.stock - Nueva cantidad de stock
+   * @param {number} data.quantity - Nueva cantidad de stock
    * @returns {Promise<Object>} Producto actualizado
    *
    * @example
-   * const updated = await warehouseProductService.update(123, 456, { stock: 200 });
+   * const updated = await warehouseProductService.update(123, 456, { quantity: 200 });
    */
   async update(productId, warehouseId, data) {
     try {
@@ -189,12 +189,12 @@ class WarehouseProductService extends ApiService {
       errors.push('El ID del almacén es requerido');
     }
 
-    if (data.stock === undefined || data.stock === null) {
-      errors.push('El stock es requerido');
+    if (data.quantity === undefined || data.quantity === null) {
+      errors.push('La cantidad es requerida');
     }
 
-    if (typeof data.stock === 'number' && data.stock < 0) {
-      errors.push('El stock no puede ser negativo');
+    if (typeof data.quantity === 'number' && data.quantity < 0) {
+      errors.push('La cantidad no puede ser negativa');
     }
 
     return {

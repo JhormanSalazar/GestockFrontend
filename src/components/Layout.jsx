@@ -24,7 +24,7 @@ export const Layout = ({ children }) => {
   const allNavItems = [
     { path: "/", label: "Dashboard", icon: Building2, roles: ["ADMIN", "BUSINESS_OWNER", "COLLABORATOR"] },
     { path: "/almacenes", label: "Almacenes", icon: Warehouse, roles: ["ADMIN", "BUSINESS_OWNER"] },
-    { path: "/productos", label: "Productos", icon: Package, roles: ["ADMIN"] },
+    { path: "/productos", label: "Productos", icon: Package, roles: ["ADMIN", "BUSINESS_OWNER"] },
     { path: "/negocios", label: "Negocios", icon: Briefcase, roles: ["ADMIN"] },
   ];
 
