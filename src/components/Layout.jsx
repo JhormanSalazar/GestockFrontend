@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import authService from "@/services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
+import { GestockLogo } from "@/components/GestockLogo";
 
 export const Layout = ({ children }) => {
   const location = useLocation();
@@ -37,8 +38,8 @@ export const Layout = ({ children }) => {
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent">
-              <Package className="h-6 w-6 text-primary-foreground" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent p-1.5">
+              <GestockLogo className="h-full w-full" fill="white" />
             </div>
             <span className="text-2xl font-bold gradient-text">gestock</span>
           </div>

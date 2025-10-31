@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
-import { Package, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { GestockLogo } from "@/components/GestockLogo";
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -131,9 +132,9 @@ export default function Auth() {
         {/* Logo */}
         <div className="flex flex-col items-center gap-4">
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent glow-effect">
-            <Package className="h-8 w-8 text-primary-foreground" />
+            <GestockLogo className="h-30 w-30" fill="white" />
           </div>
-          <h1 className="text-4xl font-bold gradient-text">gestock</h1>
+          <h1 className="text-4xl font-bold gradient-text">Gestock</h1>
           <p className="text-muted-foreground text-center">
             Sistema de gestión de inventarios
           </p>

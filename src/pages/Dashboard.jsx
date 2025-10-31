@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { businessService, warehouseService, productService } from "@/services";
+import { warehouseService, warehouseProductService, productService } from "@/services";
 import { Card } from "@/components/ui/card";
-import { Package, Warehouse, Building2, TrendingUp } from "lucide-react";
+import { Package, Warehouse, TrendingUp } from "lucide-react";
 import { Layout } from "@/components/Layout";
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
-    negocios: 0,
     almacenes: 0,
     productos: 0,
     valorTotal: 0,
@@ -18,40 +17,42 @@ export default function Dashboard() {
 
   const loadStats = async () => {
     try {
-      const [negociosRes, almacenesRes, productosRes] = await Promise.all([
-        businessService.getAll(),
+      const [almacenesRes, warehouseProductsRes, productosRes] = await Promise.all([
         warehouseService.getByBusinessId(),
+        warehouseProductService.getByBusiness(),
         productService.getByBusinessId(),
       ]);
 
+      const almacenesList = almacenesRes || [];
+      const warehouseProductsList = warehouseProductsRes || [];
       const productosList = productosRes || [];
 
-      const valorTotal = productosList.reduce((sum, p) => {
-        const cantidad = p.cantidad ?? p.quantity ?? 0;
-        const precio = Number(p.precio_unitario ?? p.price ?? 0) || 0;
-        return sum + cantidad * precio;
+      // Crear un mapa de productos por ID para acceso rápido al precio
+      const productosMap = new Map(
+        productosList.map(p => [p.id, p])
+      );
+
+      // Calcular valor total: suma de (quantity * precio) para todos los productos en almacenes
+      const valorTotal = warehouseProductsList.reduce((sum, wp) => {
+        const quantity = wp.quantity ?? 0;
+        const producto = productosMap.get(wp.productId);
+        const precio = Number(producto?.price ?? 0) || 0;
+        return sum + quantity * precio;
       }, 0);
 
       setStats({
-        negocios: Array.isArray(negociosRes) ? negociosRes.length : 0,
-        almacenes: Array.isArray(almacenesRes) ? almacenesRes.length : 0,
-        productos: productosList.length || 0,
+        almacenes: almacenesList.length || 0,
+        productos: warehouseProductsList.length || 0,
         valorTotal,
       });
     } catch (error) {
       // en caso de error, dejar todo en 0 y opcionalmente loguear
       console.error('Error cargando estadísticas:', error);
-      setStats({ negocios: 0, almacenes: 0, productos: 0, valorTotal: 0 });
+      setStats({ almacenes: 0, productos: 0, valorTotal: 0 });
     }
   };
 
   const statCards = [
-    {
-      title: "Negocios",
-      value: stats.negocios,
-      icon: Building2,
-      color: "from-blue-500 to-cyan-500",
-    },
     {
       title: "Almacenes",
       value: stats.almacenes,
@@ -82,7 +83,7 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {statCards.map((stat) => {
             const Icon = stat.icon;
             return (
@@ -110,25 +111,19 @@ export default function Dashboard() {
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">Bienvenido a gestock</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Tu sistema de gestión de inventarios está listo. Comienza creando un
-              negocio, agrega almacenes y registra tus productos para mantener un
-              control completo de tu inventario.
+              Tu sistema de gestión de inventarios está listo. Comienza agregando
+              almacenes y registra tus productos para mantener un control completo
+              de tu inventario.
             </p>
             <div className="flex gap-4 pt-4">
               <div className="flex-1 p-4 rounded-lg bg-primary/10 border border-primary/20">
-                <h3 className="font-semibold mb-1">1. Crea tu negocio</h3>
-                <p className="text-sm text-muted-foreground">
-                  Define los negocios que administrarás
-                </p>
-              </div>
-              <div className="flex-1 p-4 rounded-lg bg-accent/10 border border-accent/20">
-                <h3 className="font-semibold mb-1">2. Agrega almacenes</h3>
+                <h3 className="font-semibold mb-1">1. Agrega almacenes</h3>
                 <p className="text-sm text-muted-foreground">
                   Organiza tus ubicaciones de almacenamiento
                 </p>
               </div>
-              <div className="flex-1 p-4 rounded-lg bg-primary/10 border border-primary/20">
-                <h3 className="font-semibold mb-1">3. Registra productos</h3>
+              <div className="flex-1 p-4 rounded-lg bg-accent/10 border border-accent/20">
+                <h3 className="font-semibold mb-1">2. Registra productos</h3>
                 <p className="text-sm text-muted-foreground">
                   Mantén control de tu inventario
                 </p>
