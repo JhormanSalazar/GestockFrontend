@@ -131,8 +131,8 @@ export default function Auth() {
       <div className="w-full max-w-md space-y-8 animate-fade-in">
         {/* Logo */}
         <div className="flex flex-col items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent glow-effect">
-            <GestockLogo className="h-30 w-30" fill="white" />
+          <div className="flex h-28 w-28 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent glow-effect overflow-hidden">
+            <GestockLogo className="h-28 w-28" fill="white" />
           </div>
           <h1 className="text-4xl font-bold gradient-text">Gestock</h1>
           <p className="text-muted-foreground text-center">
